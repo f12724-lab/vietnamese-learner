@@ -533,6 +533,72 @@ const UNITS = [
       { viet:'Cái này tiếng Việt là gì?', sino:'tiếng Việt（越南語）', zh:'這個越南語怎麼說？', note:'學習越南語時最實用的問句，字面：這個越南語是什麼？' },
       { viet:'Tại sao bạn không đến?', sino:'tại sao（漢越詞：在所→為何）', zh:'你為什麼不來？', note:'tại sao = 為什麼，是固定搭配，放句首；也可用 vì sao' }
     ]
+  },
+  {
+    title: '方向位置', color: '#0277bd', colorBg: 'rgba(2,119,189,0.09)',
+    pattern: '[地點] + ở + [方位] ／ [方位詞]：trên / dưới / trái / phải / trong / ngoài',
+    patternNote: '介詞 ở = 在；六大方位詞：trên（上）、dưới（下）、trái（左）、phải（右）、trong（裡面）、ngoài（外面）。bên + [方位] 表「在...邊」。',
+    sents: [
+      { viet:'Nhà vệ sinh ở đâu?', sino:'nhà vệ sinh（衛生室→廁所）', zh:'廁所在哪裡？', note:'đâu = 哪裡，方位疑問詞。nhà = 房；vệ sinh（漢越：衛生）固定搭配' },
+      { viet:'Siêu thị ở bên trái.', sino:'siêu thị（超市）', zh:'超市在左邊。', note:'bên trái = 左邊（bên = 邊）；bên phải = 右邊。siêu thị（漢越：超市）' },
+      { viet:'Chìa khóa ở trong túi.', sino:'', zh:'鑰匙在袋子裡。', note:'trong = 裡面（反義：ngoài）；túi = 袋子、口袋。chìa khóa 為越南固有詞「鑰匙」' },
+      { viet:'Anh ấy đứng ở bên ngoài.', sino:'', zh:'他站在外面。', note:'đứng = 站立；bên ngoài = 外面（bên + ngoài）。ở 此處為介詞「在」' }
+    ]
+  },
+  {
+    title: '比較句型', color: '#558b2f', colorBg: 'rgba(85,139,47,0.09)',
+    pattern: 'A + [形容詞] + hơn + B ／ A + [形容詞] + nhất ／ A + bằng + B',
+    patternNote: 'hơn 接在形容詞後構成比較級「更...」；nhất（漢越詞：最）置形容詞後構成最高級；bằng = 和...一樣（平等比較）。',
+    sents: [
+      { viet:'Hà Nội lạnh hơn Sài Gòn.', sino:'', zh:'河內比西貢冷。', note:'[形容詞] + hơn + [比較對象]，是越南語比較句的標準語序。lạnh = 冷；nóng = 熱' },
+      { viet:'Đây là nhà hàng ngon nhất.', sino:'nhất（漢越詞：最）', zh:'這是最好吃的餐廳。', note:'nhất 直接接在形容詞後；ngon = 好吃。nhà hàng = 餐廳（字面：飯店）' },
+      { viet:'Giá này bằng giá kia.', sino:'giá（漢越詞：價）', zh:'這個價格和那個一樣。', note:'bằng 表同等比較；kia = 那個（遠指，比 đó 更遠）。giá（漢越：價）= 價格' },
+      { viet:'Anh ấy cao hơn tôi nhiều.', sino:'', zh:'他比我高很多。', note:'nhiều = 多/很多，置 hơn 句尾加強程度。cao = 高；thấp = 矮（反義）' }
+    ]
+  },
+  {
+    title: '時態表達', color: '#7b1fa2', colorBg: 'rgba(123,31,162,0.09)',
+    pattern: 'đã + [動詞]（過去）／ đang + [動詞]（進行）／ sẽ + [動詞]（未來）',
+    patternNote: '越南語動詞無變化，用時態標記詞：đã（漢越詞：已）表已完成，đang 表正在進行，sẽ（漢越詞：將）表將來。rồi 置句尾加強完成語氣。',
+    sents: [
+      { viet:'Tôi đã ăn cơm rồi.', sino:'đã（漢越詞：已）', zh:'我已經吃飯了。', note:'đã...rồi 雙重標記「已經...了」。ăn cơm = 吃飯（ăn = 吃，cơm = 米飯）' },
+      { viet:'Bạn đang làm gì?', sino:'', zh:'你正在做什麼？', note:'đang + 動詞 = 正在...（進行式）；làm = 做；gì = 什麼，疑問詞置句尾' },
+      { viet:'Chúng tôi sẽ đi Việt Nam.', sino:'sẽ（漢越詞：將）、Việt Nam（越南）', zh:'我們將去越南。', note:'chúng tôi = 我們（不含對方）；sẽ 後接動詞表未來；đi = 去' },
+      { viet:'Anh ấy đã về nhà chưa?', sino:'', zh:'他已經回家了嗎？', note:'chưa = 還沒；置句尾疑問，詢問動作是否完成。về = 回去；nhà = 家' }
+    ]
+  },
+  {
+    title: '請求建議', color: '#d84315', colorBg: 'rgba(216,67,21,0.09)',
+    pattern: 'Xin / Làm ơn + [動詞] ／ [主語] + nên / không nên + [動詞]',
+    patternNote: 'xin（漢越詞：請）和 làm ơn（做恩）都是敬語請求；nên（漢越詞：宜）= 應該，không nên = 不應該，用於給出建議。',
+    sents: [
+      { viet:'Xin lỗi, cho tôi hỏi.', sino:'xin lỗi（漢越詞：請罪）', zh:'對不起，請問一下。', note:'xin lỗi 除道歉外也用於禮貌打擾；hỏi = 問；cho tôi = 讓我/給我' },
+      { viet:'Làm ơn nói chậm hơn.', sino:'làm ơn（做恩→請）', zh:'請說慢一點。', note:'làm ơn 比 xin 更口語；chậm = 慢；chậm hơn = 更慢一點（比較級）' },
+      { viet:'Bạn nên uống nhiều nước.', sino:'nên（漢越詞：宜）', zh:'你應該多喝水。', note:'nên 後接動詞，表建議；uống = 喝；nước = 水（也有「國家」之意）' },
+      { viet:'Không nên ăn quá nhiều.', sino:'', zh:'不應該吃太多。', note:'không nên = 不應該，否定建議。quá + 形容詞 = 太...；nhiều = 多' }
+    ]
+  },
+  {
+    title: '喜好意見', color: '#00838f', colorBg: 'rgba(0,131,143,0.09)',
+    pattern: 'Tôi (rất) thích / không thích + [名詞] ／ Theo tôi, ...',
+    patternNote: 'thích = 喜歡；rất thích = 非常喜歡；không thích = 不喜歡。theo tôi（漢越詞：照我→依我看）是表達個人意見的固定句首。',
+    sents: [
+      { viet:'Tôi rất thích ăn phở.', sino:'', zh:'我非常喜歡吃河粉。', note:'rất = 很/非常，放在動詞或形容詞前加強程度；ăn phở = 吃河粉（動詞 + 名詞）' },
+      { viet:'Tôi không thích thời tiết lạnh.', sino:'thời tiết（漢越詞：時節）', zh:'我不喜歡冷天氣。', note:'thời tiết = 天氣（漢越：時節）；形容詞 lạnh 直接後置名詞作修飾' },
+      { viet:'Theo tôi, cái này tốt hơn.', sino:'theo（漢越詞：照）', zh:'依我看，這個比較好。', note:'theo tôi（照我）是發表意見的慣用語；tốt = 好；tốt hơn = 比較好（比較級）' },
+      { viet:'Bạn thích màu nào nhất?', sino:'', zh:'你最喜歡哪個顏色？', note:'màu = 顏色；nào = 哪個（選擇疑問）；nhất 置句尾構成「最...的是哪個？」' }
+    ]
+  },
+  {
+    title: '原因結果', color: '#4e342e', colorBg: 'rgba(78,52,46,0.09)',
+    pattern: 'Vì + [原因] + nên + [結果] ／ Tại vì + [原因]',
+    patternNote: 'vì（漢越詞：為）= 因為；nên = 所以（此處連接詞，非「應該」）；固定句型 vì...nên... 如中文「因為...所以...」。tại vì 為口語強調形。',
+    sents: [
+      { viet:'Vì trời mưa nên tôi ở nhà.', sino:'vì（漢越詞：為）', zh:'因為下雨所以我在家。', note:'vì...nên... 是固定因果句型；trời mưa = 天在下雨（trời = 天，mưa = 雨）' },
+      { viet:'Tôi đến muộn vì tắc đường.', sino:'', zh:'我遲到因為塞車。', note:'vì 也可置句中說明原因；muộn = 遲/晚；tắc đường = 塞車（tắc = 堵，đường = 路）' },
+      { viet:'Tại vì tôi bận nên không đến được.', sino:'', zh:'因為我忙所以不能來。', note:'tại vì 是 vì 的強調口語形；bận = 忙；không...được = 不能（否定能力）' },
+      { viet:'Anh ấy không ăn vì không đói.', sino:'', zh:'他不吃因為不餓。', note:'vì 置句中引導原因從句；đói = 飢餓；可改為句首：Vì không đói nên anh ấy không ăn.' }
+    ]
   }
 ];
 
@@ -554,7 +620,25 @@ const EX = [
   { u:4, viet:'Tôi không ___ cái này.',     zh:'我不喜歡這個。',       ans:'thích',  opts:['thích','là','có','biết'],  exp:'thích = 喜歡；không thích = 不喜歡；biết = 知道（意思不同）' },
   { u:5, viet:'Bạn ___ khỏe không?',        zh:'你好嗎？',             ans:'có',     opts:['có','là','không','muốn'],  exp:'có...không？是固定疑問句型：有 + [動詞/形容詞] + 嗎' },
   { u:5, viet:'Đây là ___?',                zh:'這是什麼？',           ans:'gì',     opts:['gì','không','có','là'],    exp:'...là gì？= ...是什麼？gì 是疑問詞，放在 là 後句尾' },
-  { u:5, viet:'___ sao bạn không đến?',     zh:'你為什麼不來？',       ans:'Tại',    opts:['Tại','Vì','Bạn','Không'],  exp:'tại sao（漢越詞：在所）= 為什麼，固定搭配，不能拆開使用' }
+  { u:5, viet:'___ sao bạn không đến?',     zh:'你為什麼不來？',       ans:'Tại',    opts:['Tại','Vì','Bạn','Không'],  exp:'tại sao（漢越詞：在所）= 為什麼，固定搭配，不能拆開使用' },
+  { u:6, viet:'Nhà vệ sinh ở ___?',         zh:'廁所在哪裡？',         ans:'đâu',    opts:['đâu','đây','gì','không'],   exp:'đâu = 哪裡，方位疑問詞；đây = 這裡（近指），兩者意思不同' },
+  { u:6, viet:'Siêu thị ở bên ___.',        zh:'超市在左邊。',         ans:'trái',   opts:['trái','phải','trên','dưới'], exp:'trái = 左；phải = 右；trên = 上；dưới = 下，四大基本方位詞' },
+  { u:6, viet:'Chìa khóa ở ___ túi.',       zh:'鑰匙在袋子裡。',       ans:'trong',  opts:['trong','ngoài','trên','bên'],exp:'trong = 裡面；ngoài = 外面（反義）；túi = 袋子/口袋' },
+  { u:7, viet:'Hà Nội ___ hơn Sài Gòn.',   zh:'河內比西貢冷。',       ans:'lạnh',   opts:['lạnh','nóng','cao','rẻ'],   exp:'lạnh = 冷；比較句型：A + 形容詞 + hơn + B = A 比 B 更...；nóng = 熱（反義）' },
+  { u:7, viet:'Đây là nhà hàng ngon ___.',  zh:'這是最好吃的餐廳。',   ans:'nhất',   opts:['nhất','hơn','quá','lắm'],   exp:'nhất（漢越詞：最）接在形容詞後構成最高級；ngon = 好吃；ngon nhất = 最好吃' },
+  { u:7, viet:'Giá này ___ giá kia.',        zh:'這個價格和那個一樣。', ans:'bằng',   opts:['bằng','hơn','là','như'],    exp:'bằng = 和...一樣，表平等比較；kia = 那個（遠指）；giá（漢越：價）= 價格' },
+  { u:8, viet:'Tôi ___ ăn cơm rồi.',        zh:'我已經吃飯了。',       ans:'đã',     opts:['đã','đang','sẽ','không'],   exp:'đã（漢越詞：已）= 已經，標記過去完成；rồi 語氣詞加強「已完成」語氣' },
+  { u:8, viet:'Bạn đang ___ gì?',           zh:'你正在做什麼？',       ans:'làm',    opts:['làm','ăn','đến','về'],      exp:'làm = 做/工作；đang làm = 正在做；ăn = 吃，đến = 來，về = 回（易混淆）' },
+  { u:8, viet:'Chúng tôi ___ đi Việt Nam.', zh:'我們將去越南。',       ans:'sẽ',     opts:['sẽ','đã','đang','không'],   exp:'sẽ（漢越詞：將）= 將要，未來時標記；chúng tôi = 我們（不含聽者）' },
+  { u:9, viet:'___ lỗi, cho tôi hỏi.',      zh:'對不起，請問一下。',   ans:'Xin',    opts:['Xin','Làm','Cho','Không'],  exp:'xin lỗi（漢越：請罪）= 對不起，也用於禮貌打擾；cho tôi hỏi = 讓我問' },
+  { u:9, viet:'Làm ơn nói ___ hơn.',        zh:'請說慢一點。',         ans:'chậm',   opts:['chậm','nhanh','to','nhỏ'],  exp:'chậm = 慢；nhanh = 快（反義）；chậm hơn = 更慢一點；làm ơn（做恩）= 請' },
+  { u:9, viet:'Bạn ___ uống nhiều nước.',   zh:'你應該多喝水。',       ans:'nên',    opts:['nên','không','đang','sẽ'],  exp:'nên（漢越詞：宜）= 應該，表建議；uống = 喝；không nên = 不應該' },
+  { u:10, viet:'Tôi ___ thích ăn phở.',     zh:'我非常喜歡吃河粉。',   ans:'rất',    opts:['rất','không','đang','đã'],  exp:'rất = 非常，副詞，放動詞/形容詞前加強程度；rất thích = 非常喜歡' },
+  { u:10, viet:'___ tôi, cái này tốt hơn.', zh:'依我看，這個比較好。', ans:'Theo',   opts:['Theo','Vì','Cho','Từ'],     exp:'theo tôi（漢越：照我）= 依我看，發表個人意見的固定句首語；tốt = 好' },
+  { u:10, viet:'Bạn thích màu ___ nhất?',   zh:'你最喜歡哪個顏色？',   ans:'nào',    opts:['nào','gì','này','đó'],      exp:'nào = 哪個，選擇疑問詞；màu nào = 哪個顏色；nhất 構成最高級疑問句' },
+  { u:11, viet:'Vì trời mưa ___ tôi ở nhà.',zh:'因為下雨所以我在家。', ans:'nên',    opts:['nên','vì','là','thì'],      exp:'vì...nên... 固定因果句型：因為...所以...；nên 此處為「所以」非「應該」' },
+  { u:11, viet:'Tôi đến muộn vì ___ đường.',zh:'我遲到因為塞車。',     ans:'tắc',    opts:['tắc','bận','mưa','đói'],    exp:'tắc đường = 塞車（tắc = 堵塞，đường = 路）；vì 置句中引導原因' },
+  { u:11, viet:'___ vì tôi bận nên không đến được.',zh:'因為我忙所以不能來。',ans:'Tại',opts:['Tại','Vì','Nên','Do'],exp:'tại vì 是 vì 的口語強調形；bận = 忙；không...được = 不能（否定能力）' }
 ];
 
 // ── Word annotation dictionary ────────────────────────
@@ -610,6 +694,70 @@ const WORDS = {
   'tại sao':    { zh: '為什麼',                   pos: '疑問詞',   sino: '在所' },
   'cảm ơn':     { zh: '謝謝',                     pos: '慣用語',   sino: '感恩' },
   'ở đây':      { zh: '在這裡',                   pos: '介詞短語' },
+  // ── Unit 6: Direction & Position
+  'ở':          { zh: '在（介詞）；居住',          pos: '介詞／動詞' },
+  'đâu':        { zh: '哪裡（疑問詞）',            pos: '疑問詞' },
+  'trên':       { zh: '上面、在上方',              pos: '方位詞' },
+  'dưới':       { zh: '下面、在下方',              pos: '方位詞' },
+  'trái':       { zh: '左、左邊',                  pos: '方位詞' },
+  'phải':       { zh: '右、右邊；必須',            pos: '方位詞／助動詞' },
+  'trong':      { zh: '在裡面',                    pos: '介詞／方位詞' },
+  'ngoài':      { zh: '外面、在外面',              pos: '介詞／方位詞' },
+  'bên':        { zh: '邊、旁邊',                  pos: '方位詞' },
+  'đứng':       { zh: '站立',                      pos: '動詞' },
+  'túi':        { zh: '袋子、口袋',                pos: '名詞' },
+  'nhà':        { zh: '家、房子',                  pos: '名詞' },
+  'nhà vệ sinh':{ zh: '廁所、洗手間',              pos: '名詞',     sino: '（衛生室）' },
+  'nhà hàng':   { zh: '餐廳',                      pos: '名詞' },
+  'siêu thị':   { zh: '超市',                      pos: '名詞',     sino: '超市' },
+  'chìa khóa':  { zh: '鑰匙',                      pos: '名詞' },
+  // ── Unit 7: Comparison
+  'nhất':       { zh: '最（最高級）',              pos: '副詞',     sino: '最' },
+  'bằng':       { zh: '和…一樣、相等',             pos: '連接詞' },
+  'lạnh':       { zh: '冷',                        pos: '形容詞' },
+  'nóng':       { zh: '熱',                        pos: '形容詞' },
+  'ngon':       { zh: '好吃、美味',                pos: '形容詞' },
+  'giá':        { zh: '價格',                      pos: '名詞',     sino: '價' },
+  'cao':        { zh: '高',                        pos: '形容詞' },
+  'nhiều':      { zh: '多、很多',                  pos: '形容詞／副詞' },
+  'kia':        { zh: '那個（遠指）',              pos: '指示詞' },
+  // ── Unit 8: Tense
+  'đã':         { zh: '已經（過去時標記）',        pos: '副詞',     sino: '已' },
+  'sẽ':         { zh: '將要（未來時標記）',        pos: '副詞',     sino: '將' },
+  'ăn':         { zh: '吃',                        pos: '動詞' },
+  'cơm':        { zh: '米飯',                      pos: '名詞' },
+  'rồi':        { zh: '已經、了（完成語氣詞）',    pos: '副詞／語氣詞' },
+  'làm':        { zh: '做、工作',                  pos: '動詞' },
+  'về':         { zh: '回、回去',                  pos: '動詞' },
+  'chưa':       { zh: '還沒；詢問是否完成',        pos: '副詞／疑問詞' },
+  'chúng tôi':  { zh: '我們（不含對方）',          pos: '代名詞',   sino: '眾＋𠇒' },
+  'Việt Nam':   { zh: '越南',                      pos: '專有名詞', sino: '越南' },
+  // ── Unit 9: Request & Suggestion
+  'xin':        { zh: '請（敬語）',                pos: '動詞',     sino: '請' },
+  'xin lỗi':    { zh: '對不起、請問（打擾）',      pos: '慣用語',   sino: '請罪' },
+  'làm ơn':     { zh: '請、勞駕',                  pos: '慣用語',   sino: '做恩' },
+  'hỏi':        { zh: '問、詢問',                  pos: '動詞' },
+  'nói':        { zh: '說、講',                    pos: '動詞' },
+  'chậm':       { zh: '慢',                        pos: '形容詞' },
+  'nên':        { zh: '應該（建議）；所以（與vì搭配）', pos: '助動詞／連接詞', sino: '宜' },
+  'uống':       { zh: '喝',                        pos: '動詞' },
+  'nước':       { zh: '水；國家',                  pos: '名詞' },
+  // ── Unit 10: Preference & Opinion
+  'rất':        { zh: '很、非常',                  pos: '副詞' },
+  'theo':       { zh: '按照、依照',                pos: '介詞',     sino: '照' },
+  'tốt':        { zh: '好、優良',                  pos: '形容詞',   sino: '好' },
+  'màu':        { zh: '顏色',                      pos: '名詞' },
+  'nào':        { zh: '哪個、哪一',                pos: '疑問詞' },
+  'thời tiết':  { zh: '天氣',                      pos: '名詞',     sino: '時節' },
+  // ── Unit 11: Cause & Effect
+  'vì':         { zh: '因為',                      pos: '連接詞',   sino: '為' },
+  'trời':       { zh: '天空；天氣',                pos: '名詞' },
+  'mưa':        { zh: '下雨；雨',                  pos: '動詞／名詞' },
+  'muộn':       { zh: '遲、晚',                    pos: '形容詞' },
+  'bận':        { zh: '忙碌',                      pos: '形容詞' },
+  'đói':        { zh: '飢餓',                      pos: '形容詞' },
+  'tắc đường':  { zh: '塞車、交通堵塞',            pos: '動詞短語' },
+  'tại vì':     { zh: '因為（口語強調）',          pos: '連接詞' },
 };
 
 const WORD_KEYS = Object.keys(WORDS).sort((a, b) => b.length - a.length);
@@ -651,14 +799,14 @@ function buildTabs() {
   nav.innerHTML = UNITS.map((u, i) =>
     `<button class="tab-btn${i===0?' active':''}" style="--c:${u.color}" onclick="showTab(${i})">${u.title}</button>`
   ).join('') +
-  `<button class="tab-btn quiz-tab" style="--c:#c62828" onclick="showTab(6)">✏️ 練習題</button>`;
+  `<button class="tab-btn quiz-tab" style="--c:#c62828" onclick="showTab(${UNITS.length})">✏️ 練習題</button>`;
 }
 
 function showTab(idx) {
   activeTab = idx;
   document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
-  document.getElementById('content').innerHTML = idx < 6 ? buildUnit(idx) : buildQuizShell();
-  if (idx === 6) { qIdx = 0; qCorrect = 0; qDone = false; showQ(); }
+  document.getElementById('content').innerHTML = idx < UNITS.length ? buildUnit(idx) : buildQuizShell();
+  if (idx === UNITS.length) { qIdx = 0; qCorrect = 0; qDone = false; showQ(); }
 }
 
 // ── Unit panel ────────────────────────────────────────
