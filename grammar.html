@@ -350,6 +350,84 @@ header .subtitle {
   .nav-bar { padding: 0.5rem 1.2rem; }
   .container { padding: 0 1rem 3rem; }
 }
+
+/* ── Word annotation ── */
+.w {
+  border-bottom: 1.5px dotted currentColor;
+  cursor: pointer;
+  opacity: 0.8;
+  border-radius: 2px;
+  transition: opacity 0.12s, background 0.12s;
+}
+.w:hover { opacity: 1; background: rgba(243,156,18,0.13); border-radius: 3px; }
+.w.active { opacity: 1; background: rgba(243,156,18,0.18); border-bottom-style: solid; border-radius: 3px; }
+
+.word-popup {
+  position: fixed;
+  z-index: 9999;
+  background: linear-gradient(145deg, #2C1810 0%, #3D1F0E 100%);
+  color: #FDF6E3;
+  border-radius: 14px;
+  padding: 0.85rem 1.15rem 0.95rem;
+  min-width: 185px;
+  max-width: 265px;
+  box-shadow:
+    0 14px 44px rgba(44,24,16,0.42),
+    0 3px 10px rgba(44,24,16,0.22),
+    0 0 0 1.5px rgba(243,156,18,0.38);
+  font-family: 'Noto Sans TC', sans-serif;
+  display: none;
+  animation: popIn 0.14s ease-out;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.91) translateY(5px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+.word-popup::after {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: var(--arrow-x, 22px);
+  width: 14px; height: 14px;
+  background: #2C1810;
+  transform: rotate(45deg);
+  border-top:  1.5px solid rgba(243,156,18,0.38);
+  border-left: 1.5px solid rgba(243,156,18,0.38);
+  border-radius: 3px 0 0 0;
+}
+.word-popup.above::after {
+  top: auto; bottom: -7px;
+  border-top: none; border-left: none;
+  border-bottom: 1.5px solid rgba(243,156,18,0.38);
+  border-right:  1.5px solid rgba(243,156,18,0.38);
+  border-radius: 0 0 3px 0;
+}
+.wp-word {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.08rem; font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 0.18rem;
+  letter-spacing: 0.01em;
+}
+.wp-pos {
+  font-size: 0.7rem;
+  color: rgba(253,246,227,0.48);
+  font-style: italic;
+  margin-bottom: 0.48rem;
+}
+.wp-zh {
+  font-size: 0.93rem; font-weight: 600;
+  color: #FDF6E3;
+  line-height: 1.5;
+}
+.wp-extra {
+  font-size: 0.73rem;
+  color: rgba(253,246,227,0.65);
+  border-top: 1px solid rgba(243,156,18,0.22);
+  padding-top: 0.38rem;
+  margin-top: 0.44rem;
+  line-height: 1.55;
+}
 </style>
 </head>
 <body>
@@ -479,6 +557,90 @@ const EX = [
   { u:5, viet:'___ sao bạn không đến?',     zh:'你為什麼不來？',       ans:'Tại',    opts:['Tại','Vì','Bạn','Không'],  exp:'tại sao（漢越詞：在所）= 為什麼，固定搭配，不能拆開使用' }
 ];
 
+// ── Word annotation dictionary ────────────────────────
+const WORDS = {
+  // Pronouns / particles
+  'tôi':        { zh: '我',                        pos: '代名詞',   sino: '𠇒（吾）' },
+  'bạn':        { zh: '你',                        pos: '代名詞',   sino: '伴' },
+  'anh ấy':     { zh: '他（男性尊稱）',            pos: '代名詞' },
+  'là':         { zh: '是',                        pos: '繫動詞' },
+  'có':         { zh: '有；構成「có…không」疑問',  pos: '動詞／助詞' },
+  'không':      { zh: '不；置句尾表是非疑問',      pos: '副詞／疑問詞' },
+  'đang':       { zh: '正在（進行式標記）',        pos: '副詞' },
+  'còn':        { zh: '還有；反問「那你呢？」',    pos: '連接詞' },
+  'lắm':        { zh: '很、非常',                  pos: '副詞' },
+  'quá':        { zh: '太、非常',                  pos: '副詞' },
+  'gì':         { zh: '什麼（疑問詞）',            pos: '疑問詞' },
+  'đây':        { zh: '這裡、這個（近指）',        pos: '指示代詞' },
+  'này':        { zh: '這、這個',                  pos: '指示詞' },
+  'cái':        { zh: '個（事物量詞）',            pos: '量詞' },
+  'một':        { zh: '一',                        pos: '數詞' },
+  'đi':         { zh: '去；置句尾表催促語氣',      pos: '動詞／語氣詞' },
+  // Verbs
+  'học':        { zh: '學習',                      pos: '動詞',     sino: '學' },
+  'hiểu':       { zh: '理解、聽懂',               pos: '動詞' },
+  'biết':       { zh: '知道',                      pos: '動詞' },
+  'thích':      { zh: '喜歡',                      pos: '動詞' },
+  'đến':        { zh: '來、到達',                  pos: '動詞' },
+  'cho':        { zh: '給、讓',                    pos: '動詞' },
+  'xem':        { zh: '看',                        pos: '動詞' },
+  'muốn':       { zh: '想要',                      pos: '助動詞' },
+  'gọi':        { zh: '叫；點（餐）',              pos: '動詞' },
+  'tính':       { zh: '算、計算',                  pos: '動詞',     sino: '算' },
+  'bán':        { zh: '賣',                        pos: '動詞' },
+  'được':       { zh: '可以、行',                  pos: '助動詞' },
+  // Adjectives
+  'khỏe':       { zh: '健康、好',                  pos: '形容詞' },
+  'đắt':        { zh: '貴',                        pos: '形容詞' },
+  'rẻ':         { zh: '便宜',                      pos: '形容詞' },
+  'hơn':        { zh: '更（比較程度）',            pos: '副詞' },
+  // Nouns
+  'tên':        { zh: '名字',                      pos: '名詞',     sino: '名' },
+  'người':      { zh: '人',                        pos: '名詞' },
+  'tiền':       { zh: '錢',                        pos: '名詞',     sino: '錢' },
+  'món':        { zh: '菜餚、道菜',               pos: '名詞' },
+  'tô':         { zh: '大碗（量詞）',              pos: '量詞' },
+  'phở':        { zh: '河粉（越南特色料理）',      pos: '名詞' },
+  // Multi-word phrases — sorted longest first by JS sort below
+  'tiếng Việt': { zh: '越南語',                   pos: '名詞' },
+  'sinh viên':  { zh: '大學生',                   pos: '名詞',     sino: '生員' },
+  'bao nhiêu':  { zh: '多少',                     pos: '疑問詞' },
+  'Đài Loan':   { zh: '台灣',                     pos: '專有名詞', loanword: { lang: '漢語音譯', orig: '台灣' } },
+  'hôm nay':    { zh: '今天',                     pos: '名詞',     sino: '今日' },
+  'tại sao':    { zh: '為什麼',                   pos: '疑問詞',   sino: '在所' },
+  'cảm ơn':     { zh: '謝謝',                     pos: '慣用語',   sino: '感恩' },
+  'ở đây':      { zh: '在這裡',                   pos: '介詞短語' },
+};
+
+const WORD_KEYS = Object.keys(WORDS).sort((a, b) => b.length - a.length);
+
+function annotate(text) {
+  const out = [];
+  let i = 0;
+  const lo = text.toLowerCase();
+  while (i < text.length) {
+    if (i === 0 || /[\s,.!?]/.test(text[i - 1])) {
+      let hit = false;
+      for (const key of WORD_KEYS) {
+        const klo = key.toLowerCase();
+        if (lo.startsWith(klo, i)) {
+          const end = i + key.length;
+          const nxt = text[end] ?? '';
+          if (!nxt || /[\s,.!?]/.test(nxt)) {
+            out.push(`<span class="w" data-w="${encodeURIComponent(key)}">${text.slice(i, end)}</span>`);
+            i = end;
+            hit = true;
+            break;
+          }
+        }
+      }
+      if (hit) continue;
+    }
+    out.push(text[i++]);
+  }
+  return out.join('');
+}
+
 // ── State ─────────────────────────────────────────────
 let activeTab = 0;
 let qIdx = 0, qCorrect = 0, qDone = false;
@@ -507,7 +669,7 @@ function buildUnit(idx) {
     const ttsBtn = ttsOK ? `<button class="tts-btn" onclick="speakS(${idx},${si})">🔊</button>` : '';
     return `<div class="sent-card">
       <div>
-        <div class="sent-viet" style="color:${u.color}">${s.viet}</div>
+        <div class="sent-viet" style="color:${u.color}">${annotate(s.viet)}</div>
         ${sinoRow}
         <div class="sent-zh">${s.zh}</div>
         <div class="sent-note">${s.note}</div>
@@ -624,9 +786,79 @@ function retryQ() {
   showQ();
 }
 
+// ── Word popup ────────────────────────────────────────
+let activeW = null;
+
+function showPopup(el) {
+  const key = decodeURIComponent(el.dataset.w);
+  const info = WORDS[key];
+  if (!info) return;
+  if (activeW === el) { hidePopup(); return; }
+  if (activeW) activeW.classList.remove('active');
+  activeW = el;
+  el.classList.add('active');
+
+  document.getElementById('wpWord').textContent = key;
+  document.getElementById('wpPos').textContent  = info.pos;
+  document.getElementById('wpZh').textContent   = info.zh;
+
+  const parts = [];
+  if (info.sino)     parts.push(`漢越詞：${info.sino}`);
+  if (info.loanword) parts.push(`${info.loanword.lang}：${info.loanword.orig}`);
+  const ex = document.getElementById('wpExtra');
+  ex.textContent  = parts.join('　');
+  ex.style.display = parts.length ? '' : 'none';
+
+  const popup = document.getElementById('wPopup');
+  popup.style.display = 'block';
+  popup.classList.remove('above');
+  // reset animation
+  popup.style.animation = 'none';
+  popup.offsetHeight;
+  popup.style.animation = '';
+
+  requestAnimationFrame(() => {
+    const r  = el.getBoundingClientRect();
+    const pw = popup.offsetWidth, ph = popup.offsetHeight;
+    const vw = window.innerWidth,  vh = window.innerHeight;
+    let left = r.left + r.width / 2 - pw / 2;
+    let top  = r.bottom + 10;
+    let above = false;
+    if (top + ph > vh - 12) { top = r.top - ph - 10; above = true; }
+    if (above) popup.classList.add('above');
+    left = Math.max(8, Math.min(left, vw - pw - 8));
+    const arrowX = Math.max(10, Math.min(r.left + r.width / 2 - left - 7, pw - 24));
+    popup.style.setProperty('--arrow-x', arrowX + 'px');
+    popup.style.left = left + 'px';
+    popup.style.top  = top  + 'px';
+  });
+}
+
+function hidePopup() {
+  if (activeW) { activeW.classList.remove('active'); activeW = null; }
+  document.getElementById('wPopup').style.display = 'none';
+}
+
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('w')) showPopup(e.target);
+  else if (!e.target.closest('#wPopup')) hidePopup();
+});
+document.addEventListener('touchend', e => {
+  if (e.target.classList.contains('w')) { e.preventDefault(); showPopup(e.target); }
+  else if (!e.target.closest('#wPopup')) hidePopup();
+}, { passive: false });
+
 // ── Init ──────────────────────────────────────────────
 buildTabs();
 showTab(0);
 </script>
+
+<div id="wPopup" class="word-popup" role="tooltip">
+  <div class="wp-word" id="wpWord"></div>
+  <div class="wp-pos"  id="wpPos"></div>
+  <div class="wp-zh"   id="wpZh"></div>
+  <div class="wp-extra" id="wpExtra"></div>
+</div>
+
 </body>
 </html>
