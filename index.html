@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>越南語單字學習</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:  #C0392B;
+  --gold: #F39C12;
+  --bg:   #FDF6E3;
+  --dark: #2C1810;
+  --green:#27AE60;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', 'Segoe UI', Arial, sans-serif;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 40px,
+    rgba(192,57,43,0.022) 40px, rgba(192,57,43,0.022) 41px
+  );
+  color: var(--dark);
+  min-height: 100vh;
+}
+
+.pattern-band {
+  height: 12px;
+  background-color: var(--red);
+  background-image:
+    linear-gradient(135deg, var(--gold) 25%, transparent 25%) -6px 0,
+    linear-gradient(225deg, var(--gold) 25%, transparent 25%) -6px 0,
+    linear-gradient(315deg, var(--gold) 25%, transparent 25%),
+    linear-gradient(45deg,  var(--gold) 25%, transparent 25%);
+  background-size: 12px 12px;
+}
+
+header {
+  background: linear-gradient(135deg, #2C1810 0%, #7B1F12 60%, #C0392B 100%);
+  color: white;
+  padding: 1.2rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: 0 3px 14px rgba(44,24,16,0.35);
+  border-bottom: 2px solid rgba(243,156,18,0.32);
+}
+header .flag { font-size: 1.8rem; }
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--bg);
+}
+header .subtitle { font-size: 0.85rem; opacity: 0.7; margin-top: 0.1rem; color: rgba(253,246,227,0.75); }
+
+.nav-bar {
+  background: var(--bg);
+  border-bottom: 2px solid rgba(243,156,18,0.35);
+  padding: 0.6rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.83rem;
+}
+.nav-link { color: var(--red); text-decoration: none; font-weight: 600; }
+.nav-link:hover { color: #D4AC0D; }
+.nav-sep { color: rgba(243,156,18,0.5); }
+.nav-current { color: rgba(44,24,16,0.55); }
+
+.container { max-width: 680px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+/* 進度區 */
+.progress-section {
+  background: #FEFCF6;
+  border-radius: 14px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(44,24,16,0.06), 0 1px 4px rgba(44,24,16,0.04);
+  border: 1px solid rgba(243,156,18,0.2);
+}
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+}
+.progress-title { font-weight: 700; font-size: 0.9rem; color: rgba(44,24,16,0.6); }
+.progress-stats { display: flex; gap: 1.2rem; }
+.stat { text-align: center; }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.stat-label { font-size: 0.72rem; color: rgba(44,24,16,0.45); margin-top: 0.1rem; }
+.stat.known .stat-num { color: var(--green); }
+.stat.unknown .stat-num { color: var(--red); }
+.stat.total .stat-num { color: var(--dark); }
+.progress-bar-wrap {
+  background: rgba(44,24,16,0.08);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), #52BE80);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+.progress-text { font-size: 0.78rem; color: rgba(44,24,16,0.42); margin-top: 0.4rem; text-align: right; }
+
+/* 主題篩選 */
+.cat-filter {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.9rem;
+}
+.cat-filter::-webkit-scrollbar { display: none; }
+.cat-chip {
+  flex-shrink: 0;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  border: 1.5px solid rgba(243,156,18,0.3);
+  background: #FEFCF6;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.76rem;
+  cursor: pointer;
+  color: rgba(44,24,16,0.58);
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.cat-chip:hover { border-color: var(--gold); color: var(--dark); }
+.cat-chip.active { background: var(--dark); border-color: var(--dark); color: var(--bg); font-weight: 700; }
+
+/* 篩選標籤 */
+.filter-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+.tab {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 2px solid rgba(243,156,18,0.28);
+  background: #FEFCF6;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.18s;
+  color: rgba(44,24,16,0.58);
+}
+.tab:hover { border-color: var(--red); color: var(--red); }
+.tab.active { background: var(--red); border-color: var(--red); color: white; font-weight: 700; }
+
+/* 字卡區 */
+.card-area { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
+.card-counter { font-size: 0.85rem; color: rgba(44,24,16,0.42); }
+
+.card-scene {
+  width: 100%;
+  max-width: 460px;
+  height: 260px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+.card-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.card-scene.flipped .card-inner { transform: rotateY(180deg); }
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  box-shadow: 0 8px 32px rgba(44,24,16,0.12), 0 2px 8px rgba(44,24,16,0.06);
+}
+
+.card-front {
+  background: #FEFCF6;
+  border: 2px solid rgba(243,156,18,0.28);
+}
+.card-front .word {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--red);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.card-front .tone-hint { font-size: 0.8rem; color: rgba(44,24,16,0.38); margin-top: 0.8rem; }
+.card-front .type-badge {
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-weight: 600;
+  border: 1px solid currentColor;
+}
+.badge-sino   { background: #EAF4FB; color: #1A6FA3; }
+.badge-loan   { background: #F5EEF8; color: #7D3C98; }
+.badge-native { background: #EAFAF1; color: #1E8449; }
+
+.card-back {
+  background: linear-gradient(135deg, #2C1810 0%, #7B1F12 50%, #C0392B 100%);
+  transform: rotateY(180deg);
+  color: white;
+  border: 2px solid rgba(243,156,18,0.25);
+}
+.card-back .meaning {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+.card-back .note { font-size: 0.8rem; opacity: 0.8; text-align: center; max-width: 280px; line-height: 1.4; }
+.card-back .original {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  background: rgba(243,156,18,0.2);
+  padding: 0.2rem 0.65rem;
+  border-radius: 4px;
+  color: rgba(253,246,227,0.9);
+}
+
+.flip-hint { font-size: 0.78rem; color: rgba(44,24,16,0.38); margin-top: -0.5rem; }
+
+/* 操作按鈕 */
+.action-buttons { display: flex; gap: 1rem; width: 100%; max-width: 460px; }
+.btn {
+  flex: 1;
+  padding: 0.85rem;
+  border-radius: 12px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border: 2px solid transparent;
+}
+.btn:active { transform: scale(0.97); }
+.btn:hover { transform: translateY(-2px); }
+.btn-unknown {
+  background: #FEF0EE;
+  color: var(--red);
+  border-color: rgba(192,57,43,0.28);
+}
+.btn-unknown:hover { background: #FDDFDB; box-shadow: 0 4px 14px rgba(192,57,43,0.2); }
+.btn-known {
+  background: #EAFAF1;
+  color: #1E8449;
+  border-color: rgba(39,174,96,0.28);
+}
+.btn-known:hover { background: #D5F5E3; box-shadow: 0 4px 14px rgba(39,174,96,0.18); }
+
+/* 完成訊息 */
+.done-card {
+  display: none;
+  background: #FEFCF6;
+  border: 1.5px solid rgba(243,156,18,0.25);
+  border-radius: 18px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(44,24,16,0.1);
+  width: 100%;
+  max-width: 460px;
+}
+.done-card.show { display: block; }
+.done-emoji { font-size: 3rem; margin-bottom: 0.8rem; }
+.done-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 0.5rem;
+}
+.done-sub { color: rgba(44,24,16,0.52); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+.btn-restart {
+  background: var(--red);
+  color: white;
+  border: 2px solid rgba(243,156,18,0.45);
+  padding: 0.8rem 2rem;
+  border-radius: 12px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-block;
+  margin: 0.3rem;
+}
+.btn-restart:hover {
+  background: #A93226;
+  box-shadow: 0 0 0 3px rgba(243,156,18,0.22), 0 4px 12px rgba(192,57,43,0.28);
+  transform: translateY(-1px);
+}
+.btn-restart-unknown {
+  background: #FEFCF6;
+  color: var(--red);
+  border: 2px solid rgba(192,57,43,0.28);
+  padding: 0.8rem 2rem;
+  border-radius: 12px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-block;
+  margin: 0.3rem;
+}
+.btn-restart-unknown:hover { background: #FEF0EE; transform: translateY(-1px); }
+
+.no-cards { color: rgba(44,24,16,0.38); font-size: 0.95rem; padding: 2rem; text-align: center; }
+
+/* 朗讀按鈕 */
+.speak-btn {
+  background: rgba(253,246,227,0.9);
+  border: 1px solid rgba(243,156,18,0.4);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+  color: var(--red);
+  margin-top: 0.6rem;
+  transition: all 0.15s;
+  font-family: 'Noto Sans TC', sans-serif;
+}
+.speak-btn:hover { background: rgba(243,156,18,0.15); box-shadow: 0 0 0 2px rgba(243,156,18,0.28); }
+.speak-btn.speaking { animation: pulse 0.6s infinite alternate; }
+@keyframes pulse { from { opacity: 1; } to { opacity: 0.4; } }
+
+/* TTS toggle */
+.tts-toggle {
+  margin-left: auto;
+  background: rgba(253,246,227,0.1);
+  border: 1px solid rgba(243,156,18,0.45);
+  color: var(--bg);
+  border-radius: 8px;
+  padding: 0.3rem 0.8rem;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tts-toggle:hover { background: rgba(243,156,18,0.18); }
+.tts-toggle.muted { opacity: 0.5; }
+
+.tts-warn {
+  font-size: 0.75rem;
+  color: var(--red);
+  background: rgba(192,57,43,0.08);
+  border-radius: 6px;
+  padding: 0.3rem 0.8rem;
+  margin-bottom: -0.3rem;
+}
+
+@media (max-width: 480px) {
+  .card-scene { height: 230px; }
+  .card-front .word { font-size: 1.8rem; }
+  .card-back .meaning { font-size: 1.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="pattern-band"></div>
+
+<header>
+  <div class="flag">🇻🇳</div>
+  <div>
+    <h1>越南語單字學習</h1>
+    <div class="subtitle">點擊字卡翻面，分類你的學習進度</div>
+  </div>
+  <button class="tts-toggle" id="ttsToggle" onclick="toggleTTS()">🔊 朗讀</button>
+</header>
+
+<nav class="nav-bar">
+  <a class="nav-link" href="home.html">← 首頁</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">單字學習</span>
+  <span class="nav-sep">/</span>
+  <a class="nav-link" href="grammar.html">基礎文法 →</a>
+</nav>
+
+<div class="container">
+
+  <div class="progress-section">
+    <div class="progress-header">
+      <div class="progress-title">學習進度</div>
+      <div class="progress-stats">
+        <div class="stat total"><div class="stat-num" id="statTotal">0</div><div class="stat-label">總共</div></div>
+        <div class="stat known"><div class="stat-num" id="statKnown">0</div><div class="stat-label">認識了</div></div>
+        <div class="stat unknown"><div class="stat-num" id="statUnknown">0</div><div class="stat-label">還不熟</div></div>
+      </div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar" style="width:0%"></div>
+    </div>
+    <div class="progress-text" id="progressText">尚未開始學習</div>
+  </div>
+
+  <div class="cat-filter">
+    <button class="cat-chip active" data-cat="all"       onclick="setCatFilter('all')">全部主題</button>
+    <button class="cat-chip"        data-cat="greeting"  onclick="setCatFilter('greeting')">問候用語</button>
+    <button class="cat-chip"        data-cat="numbers"   onclick="setCatFilter('numbers')">數字時間</button>
+    <button class="cat-chip"        data-cat="food"      onclick="setCatFilter('food')">食物飲料</button>
+    <button class="cat-chip"        data-cat="transport" onclick="setCatFilter('transport')">交通地點</button>
+    <button class="cat-chip"        data-cat="family"    onclick="setCatFilter('family')">家庭人稱</button>
+    <button class="cat-chip"        data-cat="shopping"  onclick="setCatFilter('shopping')">購物金錢</button>
+    <button class="cat-chip"        data-cat="health"    onclick="setCatFilter('health')">身體健康</button>
+    <button class="cat-chip"        data-cat="emotion"   onclick="setCatFilter('emotion')">情緒形容</button>
+  </div>
+
+  <div class="filter-tabs">
+    <button class="tab active" onclick="setFilter('all')">全部</button>
+    <button class="tab" onclick="setFilter('unknown')">還不熟</button>
+    <button class="tab" onclick="setFilter('known')">認識了</button>
+    <button class="tab" onclick="setFilter('unrated')">未分類</button>
+  </div>
+
+  <div class="card-area">
+    <div class="card-counter" id="cardCounter"></div>
+
+    <div class="card-scene" id="cardScene" onclick="flipCard()">
+      <div class="card-inner" id="cardInner">
+        <div class="card-face card-front" id="cardFront"></div>
+        <div class="card-face card-back" id="cardBack"></div>
+      </div>
+    </div>
+
+    <div class="flip-hint" id="flipHint">點擊字卡查看意思</div>
+
+    <div class="action-buttons" id="actionButtons">
+      <button class="btn btn-unknown" onclick="markCard('unknown')">😅 還不熟</button>
+      <button class="btn btn-known" onclick="markCard('known')">✅ 認識了</button>
+    </div>
+
+    <div class="done-card" id="doneCard">
+      <div class="done-emoji">🎉</div>
+      <div class="done-title" id="doneTitle">這組全部完成！</div>
+      <div class="done-sub" id="doneSub"></div>
+      <div>
+        <button class="btn-restart" onclick="restartAll()">再練習一遍</button>
+        <button class="btn-restart-unknown" id="btnRetryUnknown" onclick="retryUnknown()" style="display:none">只練還不熟的</button>
+      </div>
+    </div>
+
+    <div class="no-cards" id="noCards" style="display:none">此分類目前沒有單字</div>
+    <div class="tts-warn" id="ttsWarn" style="display:none">此瀏覽器不支援語音朗讀</div>
+  </div>
+
+</div>
+
+<script>
+const vocab = [
+  // ── 1. 日常問候與基本用語 ──────────────────────────
+  { cat:'greeting', viet:'xin chào',     meaning:'你好',              type:'native', note:'最常用的打招呼語' },
+  { cat:'greeting', viet:'cảm ơn',       meaning:'謝謝',              type:'sino',   hanzi:'感恩',   note:'漢越詞：感恩' },
+  { cat:'greeting', viet:'xin lỗi',      meaning:'對不起',            type:'sino',   hanzi:'申罪',   note:'漢越詞：申（請求）+ 罪' },
+  { cat:'greeting', viet:'vâng / dạ',    meaning:'是的（禮貌答應）',  type:'native', note:'dạ 更禮貌，用於長輩' },
+  { cat:'greeting', viet:'không',        meaning:'不 / 沒有',         type:'sino',   hanzi:'空',     note:'漢越詞：空（虛無）' },
+  { cat:'greeting', viet:'tạm biệt',     meaning:'再見',              type:'sino',   hanzi:'暫別',   note:'漢越詞：暫別，正式道別用語' },
+  { cat:'greeting', viet:'có',           meaning:'有 / 是',           type:'native', note:'肯定詞；也用於疑問句型 có...không' },
+  { cat:'greeting', viet:'được',         meaning:'好 / 可以',         type:'native', note:'表達許可或達成；也作被動語態標記' },
+  { cat:'greeting', viet:'không có gì',  meaning:'不客氣',            type:'native', note:'字面「沒有什麼」，回應 cảm ơn' },
+  { cat:'greeting', viet:'không sao',    meaning:'沒關係',            type:'native', note:'字面「不要緊」，回應 xin lỗi' },
+  { cat:'greeting', viet:'làm ơn',       meaning:'請 / 麻煩',         type:'native', note:'làm（做）+ ơn（恩），禮貌請求用語' },
+  { cat:'greeting', viet:'hiểu',         meaning:'理解 / 懂',         type:'native', note:'理解某概念；biết 是「知道某事」' },
+  { cat:'greeting', viet:'biết',         meaning:'知道',              type:'native', note:'知道某事實；hiểu 是「理解」' },
+  { cat:'greeting', viet:'muốn',         meaning:'想要',              type:'native', note:'後接名詞或動詞，表達意願' },
+  { cat:'greeting', viet:'học',          meaning:'學習',              type:'sino',   hanzi:'學',     note:'漢越詞：學' },
+  { cat:'greeting', viet:'điện thoại',   meaning:'電話',              type:'sino',   hanzi:'電話',   note:'漢越詞：電話' },
+  { cat:'greeting', viet:'máy tính',     meaning:'電腦',              type:'sino',   hanzi:'機算',   note:'máy = 機器，tính（漢越：算）' },
+  { cat:'greeting', viet:'ti vi',        meaning:'電視',              type:'loan',   original:'英語 TV', note:'外來語，源自英語 TV' },
+
+  // ── 2. 數字與時間 ──────────────────────────────────
+  { cat:'numbers', viet:'một',      meaning:'一',          type:'native', note:'một mình = 獨自一人' },
+  { cat:'numbers', viet:'hai',      meaning:'二',          type:'native', note:'cả hai = 兩者都' },
+  { cat:'numbers', viet:'ba',       meaning:'三',          type:'native', note:'南越也用 ba 稱呼爸爸' },
+  { cat:'numbers', viet:'bốn',      meaning:'四',          type:'native', note:'比 tư（亦為4）更常用' },
+  { cat:'numbers', viet:'năm',      meaning:'五 / 年',     type:'native', note:'同一個字：năm = 5，也 = 年份，靠上下文辨別' },
+  { cat:'numbers', viet:'sáu',      meaning:'六',          type:'native', note:'銳調（sắc），音調高升' },
+  { cat:'numbers', viet:'mười',     meaning:'十',          type:'native', note:'mười một = 11，mười hai = 12' },
+  { cat:'numbers', viet:'trăm',     meaning:'百',          type:'sino',   hanzi:'百', note:'漢越詞：百；một trăm = 100' },
+  { cat:'numbers', viet:'ngày',     meaning:'日 / 天',     type:'sino',   hanzi:'日', note:'漢越詞：日；mấy ngày = 幾天' },
+  { cat:'numbers', viet:'hôm nay',  meaning:'今天',        type:'sino',   hanzi:'今日', note:'漢越詞：今日' },
+  { cat:'numbers', viet:'ngày mai', meaning:'明天',        type:'native', note:'ngày（日）+ mai（明/早晨）' },
+  { cat:'numbers', viet:'hôm qua',  meaning:'昨天',        type:'sino',   hanzi:'昨日', note:'漢越詞：昨日' },
+  { cat:'numbers', viet:'giờ',      meaning:'小時 / 點鐘', type:'sino',   hanzi:'時', note:'漢越詞：時；mấy giờ？= 幾點？' },
+  { cat:'numbers', viet:'phút',     meaning:'分鐘',        type:'sino',   hanzi:'分', note:'漢越詞：分' },
+  { cat:'numbers', viet:'tháng',    meaning:'月份',        type:'sino',   hanzi:'月', note:'漢越詞：月；tháng mấy？= 幾月？' },
+
+  // ── 3. 食物與飲料 ──────────────────────────────────
+  { cat:'food', viet:'ăn',        meaning:'吃',              type:'native', note:'基本動詞；ăn cơm = 吃飯' },
+  { cat:'food', viet:'uống',      meaning:'喝',              type:'native', note:'基本動詞；uống nước = 喝水' },
+  { cat:'food', viet:'nước',      meaning:'水 / 國家',       type:'native', note:'同一個字兼有「水」和「國家」之意' },
+  { cat:'food', viet:'cơm',       meaning:'米飯',            type:'native', note:'主食，延伸義為「餐食」' },
+  { cat:'food', viet:'phở',       meaning:'河粉（越南湯麵）', type:'native', note:'越南最具代表性的料理' },
+  { cat:'food', viet:'cà phê',    meaning:'咖啡',            type:'loan',   original:'法語 café', note:'外來語，源自法語 café' },
+  { cat:'food', viet:'trà',       meaning:'茶',              type:'sino',   hanzi:'茶', note:'漢越詞：茶；南越常說 chè，也指甜湯' },
+  { cat:'food', viet:'bánh mì',   meaning:'麵包 / 越式法棍', type:'native', note:'bánh（糕餅）+ mì（麵），法殖民時代留下的食物' },
+  { cat:'food', viet:'rau',       meaning:'蔬菜',            type:'native', note:'泛指所有蔬菜；rau sống = 生菜' },
+  { cat:'food', viet:'thịt',      meaning:'肉',              type:'sino',   hanzi:'肉', note:'漢越詞：肉；thịt bò = 牛肉，thịt gà = 雞肉' },
+  { cat:'food', viet:'cá',        meaning:'魚',              type:'native', note:'泛指魚類；cá chiên = 炸魚' },
+  { cat:'food', viet:'trái cây',  meaning:'水果',            type:'native', note:'trái（果實）+ cây（樹）；北越說 hoa quả' },
+  { cat:'food', viet:'bia',       meaning:'啤酒',            type:'loan',   original:'法語 bière', note:'外來語，源自法語 bière' },
+  { cat:'food', viet:'ngon',      meaning:'好吃 / 美味',     type:'native', note:'形容詞，也可形容聲音悅耳' },
+
+  // ── 4. 交通與地點 ──────────────────────────────────
+  { cat:'transport', viet:'xe máy',    meaning:'摩托車',      type:'sino',   hanzi:'車（xe）',  note:'xe（漢越：車）+ máy（引擎），越南最普遍的交通工具' },
+  { cat:'transport', viet:'xe buýt',   meaning:'公車 / 巴士', type:'loan',   original:'法語 bus', note:'外來語，xe（車）+ buýt（bus）' },
+  { cat:'transport', viet:'ô tô',      meaning:'汽車',        type:'loan',   original:'法語 auto', note:'外來語，源自法語 automobile；也說 xe hơi' },
+  { cat:'transport', viet:'tàu',       meaning:'船 / 火車',   type:'sino',   hanzi:'艚', note:'泛指大型交通工具；tàu hỏa = 火車，tàu biển = 輪船' },
+  { cat:'transport', viet:'máy bay',   meaning:'飛機',        type:'native', note:'máy（機器）+ bay（飛），字面「飛行機器」' },
+  { cat:'transport', viet:'nhà',       meaning:'家 / 房子',   type:'native', note:'也可指「一家人」' },
+  { cat:'transport', viet:'trường',    meaning:'學校',        type:'sino',   hanzi:'場', note:'漢越詞：場（校場）；trường học = 學校' },
+  { cat:'transport', viet:'bệnh viện', meaning:'醫院',        type:'sino',   hanzi:'病院', note:'漢越詞：病院' },
+  { cat:'transport', viet:'chợ',       meaning:'市場',        type:'native', note:'傳統市場；chợ trời = 跳蚤市場' },
+  { cat:'transport', viet:'siêu thị',  meaning:'超市',        type:'sino',   hanzi:'超市', note:'漢越詞：超市' },
+  { cat:'transport', viet:'sân bay',   meaning:'機場',        type:'native', note:'sân（場地）+ bay（飛）' },
+  { cat:'transport', viet:'đường',     meaning:'路 / 街道',   type:'sino',   hanzi:'道', note:'漢越詞：道；đường phố = 街道' },
+  { cat:'transport', viet:'khách sạn', meaning:'飯店 / 旅館', type:'sino',   hanzi:'客棧', note:'漢越詞：客棧' },
+
+  // ── 5. 家庭與人稱代詞 ──────────────────────────────
+  { cat:'family', viet:'tôi',       meaning:'我',                      type:'sino',   hanzi:'𠇒',   note:'中性第一人稱，正式場合常用' },
+  { cat:'family', viet:'bạn',       meaning:'你（同輩）/ 朋友',        type:'sino',   hanzi:'伴',   note:'漢越詞：伴，平輩間的「你」' },
+  { cat:'family', viet:'anh',       meaning:'哥哥 / 您（對年長男性）', type:'sino',   hanzi:'兄',   note:'漢越詞：兄；稱呼比自己年長的男性' },
+  { cat:'family', viet:'chị',       meaning:'姐姐 / 您（對年長女性）', type:'sino',   hanzi:'姐',   note:'漢越詞：姐；稱呼比自己年長的女性' },
+  { cat:'family', viet:'em',        meaning:'弟妹 / 我（對長輩自稱）', type:'sino',   hanzi:'𪜶',   note:'對長輩說話時自稱 em；同時指年幼的弟妹' },
+  { cat:'family', viet:'ông',       meaning:'爺爺 / 您（對老年男性）', type:'sino',   hanzi:'翁',   note:'漢越詞：翁；也是對老年男性的尊稱' },
+  { cat:'family', viet:'bà',        meaning:'奶奶 / 您（對老年女性）', type:'sino',   hanzi:'婆',   note:'漢越詞：婆；也是對老年女性的尊稱' },
+  { cat:'family', viet:'gia đình',  meaning:'家庭',                    type:'sino',   hanzi:'家庭', note:'漢越詞：家庭' },
+  { cat:'family', viet:'bố / ba',   meaning:'爸爸',                    type:'native', note:'bố 是北越說法，ba 是南越說法（也是數字3）' },
+  { cat:'family', viet:'mẹ / má',   meaning:'媽媽',                    type:'native', note:'mẹ 是北越說法，má 是南越說法（也是臉頰）' },
+  { cat:'family', viet:'con',       meaning:'孩子 / 我（對父母自稱）', type:'native', note:'對父母說話時自稱 con；也泛指子女' },
+  { cat:'family', viet:'anh ấy',    meaning:'他（男性）',              type:'native', note:'anh（兄）+ ấy（那個指示詞）' },
+  { cat:'family', viet:'cô ấy',     meaning:'她（女性）',              type:'native', note:'cô（姑/小姐）+ ấy（那個）' },
+  { cat:'family', viet:'chúng tôi', meaning:'我們（不含聽者）',        type:'sino',   hanzi:'眾',   note:'chúng（漢越：眾）+ tôi（我）；不包含聽話者' },
+
+  // ── 6. 購物與金錢 ──────────────────────────────────
+  { cat:'shopping', viet:'tiền',      meaning:'錢',          type:'sino',   hanzi:'錢', note:'漢越詞：錢' },
+  { cat:'shopping', viet:'mua',       meaning:'買',          type:'native', note:'mua hàng = 購物' },
+  { cat:'shopping', viet:'bán',       meaning:'賣',          type:'native', note:'bán hàng = 賣東西；cửa hàng = 商店' },
+  { cat:'shopping', viet:'đắt',       meaning:'貴',          type:'native', note:'đắt quá = 太貴了；反義詞 rẻ（便宜）' },
+  { cat:'shopping', viet:'rẻ',        meaning:'便宜',        type:'native', note:'rẻ hơn = 更便宜一點；反義詞 đắt（貴）' },
+  { cat:'shopping', viet:'bao nhiêu', meaning:'多少',        type:'native', note:'疑問詞，詢問數量或價格；bao nhiêu tiền = 多少錢' },
+  { cat:'shopping', viet:'giá',       meaning:'價格',        type:'sino',   hanzi:'價', note:'漢越詞：價；giá cả = 物價' },
+  { cat:'shopping', viet:'đồng',      meaning:'越南盾（貨幣單位）', type:'sino', hanzi:'銅', note:'漢越詞：銅（古代銅錢）；越南官方貨幣單位' },
+  { cat:'shopping', viet:'cửa hàng',  meaning:'商店',        type:'native', note:'cửa（門）+ hàng（貨物）；siêu thị = 超市' },
+  { cat:'shopping', viet:'quần áo',   meaning:'衣服',        type:'native', note:'quần（褲子）+ áo（上衣）；泛指衣物' },
+  { cat:'shopping', viet:'giày',      meaning:'鞋子',        type:'native', note:'giày dép = 鞋類（giày = 鞋，dép = 拖鞋）' },
+  { cat:'shopping', viet:'túi',       meaning:'袋子 / 包包', type:'native', note:'túi xách = 手提包，túi tiền = 錢包' },
+  { cat:'shopping', viet:'thanh toán', meaning:'付款 / 結帳', type:'sino',  hanzi:'清算', note:'漢越詞：清算；也常說 tính tiền（算錢）' },
+
+  // ── 7. 身體與健康 ──────────────────────────────────
+  { cat:'health', viet:'đầu',       meaning:'頭',        type:'native', note:'đau đầu = 頭痛' },
+  { cat:'health', viet:'mắt',       meaning:'眼睛',      type:'native', note:'mắt kính = 眼鏡（mắt + kính[鏡]）' },
+  { cat:'health', viet:'tai',       meaning:'耳朵',      type:'sino',   hanzi:'耳', note:'漢越詞：耳；tai nghe = 耳機' },
+  { cat:'health', viet:'miệng',     meaning:'嘴巴',      type:'native', note:'miệng = 口/嘴；mồm 是北越常用說法' },
+  { cat:'health', viet:'tay',       meaning:'手 / 手臂', type:'native', note:'tay phải = 右手，tay trái = 左手' },
+  { cat:'health', viet:'chân',      meaning:'腳 / 腿',   type:'native', note:'chân tay = 手腳，泛指四肢' },
+  { cat:'health', viet:'bác sĩ',    meaning:'醫生',      type:'sino',   hanzi:'博士', note:'漢越詞：博士；越南語中 bác sĩ 專指醫生' },
+  { cat:'health', viet:'thuốc',     meaning:'藥 / 藥物', type:'sino',   hanzi:'藥', note:'漢越詞：藥；uống thuốc = 吃藥（越語說「喝藥」）' },
+  { cat:'health', viet:'đau',       meaning:'痛 / 疼',   type:'native', note:'đau + 部位 = 某處痛；đau bụng = 肚子痛' },
+  { cat:'health', viet:'khỏe',      meaning:'健康 / 好', type:'native', note:'Bạn khỏe không？= 你好嗎？聲調為問聲（hỏi）' },
+  { cat:'health', viet:'bệnh',      meaning:'生病 / 疾病', type:'sino', hanzi:'病', note:'漢越詞：病；bị bệnh = 生病了' },
+  { cat:'health', viet:'cảm cúm',   meaning:'感冒',      type:'sino',   hanzi:'感', note:'cảm（漢越：感）+ cúm（流感，源自法語 grippe）' },
+  { cat:'health', viet:'nghỉ ngơi', meaning:'休息',      type:'native', note:'nghỉ（停息）+ ngơi（歇息），疊字加強語氣' },
+
+  // ── 8. 情緒與形容詞 ────────────────────────────────
+  { cat:'emotion', viet:'đẹp',   meaning:'漂亮 / 好看', type:'native', note:'đẹp trai = 帥（男），đẹp gái = 美（女）' },
+  { cat:'emotion', viet:'yêu',   meaning:'愛 / 喜歡',   type:'sino',   hanzi:'愛', note:'漢越詞：愛；anh yêu em = 我愛你' },
+  { cat:'emotion', viet:'vui',   meaning:'開心 / 高興', type:'native', note:'vui vẻ = 快樂；vui lòng = 請（字面：請高興地）' },
+  { cat:'emotion', viet:'buồn',  meaning:'難過 / 悲傷', type:'native', note:'buồn bã = 沮喪；buồn ngủ = 想睡覺' },
+  { cat:'emotion', viet:'tức',   meaning:'生氣 / 憤怒', type:'native', note:'tức giận = 憤怒；đừng tức = 別生氣' },
+  { cat:'emotion', viet:'sợ',    meaning:'害怕 / 恐懼', type:'native', note:'sợ hãi = 恐懼；đừng sợ = 別怕' },
+  { cat:'emotion', viet:'mệt',   meaning:'疲倦 / 累',   type:'native', note:'mệt mỏi = 疲憊；mệt lắm = 很累' },
+  { cat:'emotion', viet:'lớn',   meaning:'大 / 成年',   type:'native', note:'反義詞 nhỏ（小）；lớn lên = 長大' },
+  { cat:'emotion', viet:'nhỏ',   meaning:'小',          type:'native', note:'反義詞 lớn（大）；也指年幼的' },
+  { cat:'emotion', viet:'nhanh', meaning:'快 / 迅速',   type:'native', note:'反義詞 chậm（慢）；nhanh lên = 快點' },
+  { cat:'emotion', viet:'chậm',  meaning:'慢',          type:'native', note:'反義詞 nhanh（快）；chậm lại = 慢下來' },
+  { cat:'emotion', viet:'nhiều', meaning:'多 / 很多',   type:'native', note:'反義詞 ít（少）；nhiều quá = 太多了' },
+  { cat:'emotion', viet:'ít',    meaning:'少 / 一點',   type:'native', note:'反義詞 nhiều（多）；một ít = 一點點' },
+  { cat:'emotion', viet:'tốt',   meaning:'好 / 善良',   type:'native', note:'tốt bụng = 好心腸；không tốt = 不好' },
+];
+
+const CAT_LABELS = {
+  greeting: '問候用語', numbers: '數字時間', food: '食物飲料',
+  transport: '交通地點', family: '家庭人稱', shopping: '購物金錢',
+  health: '身體健康', emotion: '情緒形容',
+};
+
+let cards = [];
+let currentIndex = 0;
+let filter = 'all';
+let catFilter = 'all';
+let flipped = false;
+
+// ── TTS ──────────────────────────────────────────────
+const ttsSupported = 'speechSynthesis' in window;
+let ttsEnabled = true;
+
+function speak(text) {
+  if (!ttsSupported || !ttsEnabled) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text.replace(/ \/ /g, ', '));
+  utter.lang = 'vi-VN';
+  utter.rate = 0.85;
+  utter.onstart = () => {
+    const btn = document.getElementById('speakBtn');
+    if (btn) btn.classList.add('speaking');
+  };
+  utter.onend = utter.onerror = () => {
+    const btn = document.getElementById('speakBtn');
+    if (btn) btn.classList.remove('speaking');
+  };
+  window.speechSynthesis.speak(utter);
+}
+
+function speakCurrent(e) {
+  e.stopPropagation();
+  if (currentIndex < queue.length) speak(queue[currentIndex].viet);
+}
+
+function toggleTTS() {
+  ttsEnabled = !ttsEnabled;
+  const btn = document.getElementById('ttsToggle');
+  btn.textContent = ttsEnabled ? '🔊 朗讀' : '🔇 靜音';
+  btn.classList.toggle('muted', !ttsEnabled);
+  if (!ttsEnabled) window.speechSynthesis.cancel();
+}
+// ─────────────────────────────────────────────────────
+
+function init() {
+  vocab.forEach((v, i) => {
+    if (!cards[i]) cards[i] = { ...v, status: 'unrated' };
+  });
+  if (!ttsSupported) {
+    document.getElementById('ttsToggle').style.display = 'none';
+    document.getElementById('ttsWarn').style.display = 'block';
+  }
+  updateStats();
+  loadFilter();
+}
+
+function getScope() {
+  return catFilter === 'all' ? cards : cards.filter(c => c.cat === catFilter);
+}
+
+function getFilteredCards() {
+  const pool = getScope();
+  if (filter === 'all')     return pool.filter(c => c.status !== 'known');
+  if (filter === 'unknown') return pool.filter(c => c.status === 'unknown');
+  if (filter === 'known')   return pool.filter(c => c.status === 'known');
+  if (filter === 'unrated') return pool.filter(c => c.status === 'unrated');
+  return pool;
+}
+
+let queue = [];
+
+function loadFilter() {
+  currentIndex = 0;
+  flipped = false;
+  queue = getFilteredCards().map(c => c);
+  shuffleArray(queue);
+  renderCard();
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function renderCard() {
+  const scene = document.getElementById('cardScene');
+  const counter = document.getElementById('cardCounter');
+  const flipHint = document.getElementById('flipHint');
+  const actionButtons = document.getElementById('actionButtons');
+  const doneCard = document.getElementById('doneCard');
+  const noCards = document.getElementById('noCards');
+
+  if (queue.length === 0) {
+    scene.style.display = 'none';
+    counter.textContent = '';
+    flipHint.style.display = 'none';
+    actionButtons.style.display = 'none';
+    doneCard.classList.remove('show');
+    noCards.style.display = 'block';
+    return;
+  }
+
+  noCards.style.display = 'none';
+
+  if (currentIndex >= queue.length) {
+    scene.style.display = 'none';
+    counter.textContent = '';
+    flipHint.style.display = 'none';
+    actionButtons.style.display = 'none';
+    doneCard.classList.add('show');
+
+    const scope = getScope();
+    const known = scope.filter(c => c.status === 'known').length;
+    const unknown = scope.filter(c => c.status === 'unknown').length;
+    const catLabel = catFilter === 'all' ? '' : `【${CAT_LABELS[catFilter]}】`;
+    document.getElementById('doneTitle').textContent =
+      filter === 'all'     ? `${catLabel}這組全部完成！` :
+      filter === 'known'   ? `${catLabel}認識了的單字複習完！` :
+      filter === 'unknown' ? `${catLabel}還不熟的單字複習完了！` : `${catLabel}未分類單字練習完！`;
+    document.getElementById('doneSub').textContent =
+      `認識了 ${known} 個，還不熟 ${unknown} 個，本範圍共 ${scope.length} 個單字`;
+
+    const btnRetry = document.getElementById('btnRetryUnknown');
+    btnRetry.style.display = unknown > 0 ? 'inline-block' : 'none';
+    return;
+  }
+
+  doneCard.classList.remove('show');
+  scene.style.display = 'block';
+  flipHint.style.display = 'block';
+  actionButtons.style.display = 'flex';
+
+  const card = queue[currentIndex];
+  counter.textContent = `${currentIndex + 1} / ${queue.length}`;
+
+  // 重置翻面
+  scene.classList.remove('flipped');
+  flipped = false;
+  flipHint.textContent = '點擊字卡查看意思';
+
+  // 渲染正面
+  const typeLabel = card.type === 'sino' ? '漢越詞' : card.type === 'loan' ? '外來語' : '固有詞';
+  const badgeClass = card.type === 'sino' ? 'badge-sino' : card.type === 'loan' ? 'badge-loan' : 'badge-native';
+  document.getElementById('cardFront').innerHTML = `
+    <div class="word">${card.viet}</div>
+    <span class="type-badge ${badgeClass}">${typeLabel}</span>
+    <button class="speak-btn" id="speakBtn" onclick="speakCurrent(event)" title="朗讀發音">🔊 朗讀</button>
+    <div class="tone-hint">點擊查看中文意思</div>
+  `;
+  speak(card.viet);
+
+  // 渲染背面
+  let noteHtml = card.note ? `<div class="note">${card.note}</div>` : '';
+  let originalHtml = '';
+  if (card.type === 'sino' && card.hanzi) {
+    originalHtml = `<div class="original">漢字：${card.hanzi}</div>`;
+  } else if (card.type === 'loan' && card.original) {
+    originalHtml = `<div class="original">原文：${card.original}</div>`;
+  }
+  document.getElementById('cardBack').innerHTML = `
+    <div class="meaning">${card.meaning}</div>
+    ${originalHtml}
+    ${noteHtml}
+  `;
+}
+
+function flipCard() {
+  const scene = document.getElementById('cardScene');
+  const flipHint = document.getElementById('flipHint');
+  if (currentIndex >= queue.length) return;
+  flipped = !flipped;
+  scene.classList.toggle('flipped', flipped);
+  flipHint.textContent = flipped ? '點擊字卡回到單字面' : '點擊字卡查看意思';
+  // 每次點擊都朗讀越南語（無論翻到哪面）
+  speak(queue[currentIndex].viet);
+}
+
+function markCard(status) {
+  if (currentIndex >= queue.length) return;
+  const card = queue[currentIndex];
+  const orig = cards.find(c => c.viet === card.viet);
+  if (orig) orig.status = status;
+  currentIndex++;
+  updateStats();
+  renderCard();
+}
+
+function setFilter(f) {
+  filter = f;
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', ['all','unknown','known','unrated'][i] === f);
+  });
+  loadFilter();
+}
+
+function setCatFilter(cat) {
+  catFilter = cat;
+  document.querySelectorAll('.cat-chip').forEach(chip => {
+    chip.classList.toggle('active', chip.dataset.cat === cat);
+  });
+  updateStats();
+  loadFilter();
+}
+
+function updateStats() {
+  const scope = getScope();
+  const known = scope.filter(c => c.status === 'known').length;
+  const unknown = scope.filter(c => c.status === 'unknown').length;
+  const total = scope.length;
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnown').textContent = known;
+  document.getElementById('statUnknown').textContent = unknown;
+  const pct = total > 0 ? Math.round((known / total) * 100) : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+  const label = catFilter === 'all' ? '全部' : CAT_LABELS[catFilter];
+  document.getElementById('progressText').textContent =
+    known === 0 ? `尚未開始學習（${label} ${total} 個）` :
+    known === total ? `${label}全部認識了！🎉` :
+    `${label}已認識 ${known}/${total} 個（${pct}%）`;
+}
+
+function restartAll() {
+  getScope().forEach(c => c.status = 'unrated');
+  updateStats();
+  filter = 'all';
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', i === 0);
+  });
+  loadFilter();
+}
+
+function retryUnknown() {
+  filter = 'unknown';
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('active', i === 1);
+  });
+  loadFilter();
+}
+
+init();
+</script>
+</body>
+</html>

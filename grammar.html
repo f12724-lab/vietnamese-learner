@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>越南語基礎文法</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:  #C0392B;
+  --gold: #F39C12;
+  --bg:   #FDF6E3;
+  --dark: #2C1810;
+  --green:#27AE60;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 40px,
+    rgba(192,57,43,0.022) 40px, rgba(192,57,43,0.022) 41px
+  );
+  color: var(--dark);
+  min-height: 100vh;
+}
+
+.pattern-band {
+  height: 12px;
+  background-color: var(--red);
+  background-image:
+    linear-gradient(135deg, var(--gold) 25%, transparent 25%) -6px 0,
+    linear-gradient(225deg, var(--gold) 25%, transparent 25%) -6px 0,
+    linear-gradient(315deg, var(--gold) 25%, transparent 25%),
+    linear-gradient(45deg,  var(--gold) 25%, transparent 25%);
+  background-size: 12px 12px;
+}
+
+header {
+  background: linear-gradient(135deg, #2C1810 0%, #7B1F12 60%, #C0392B 100%);
+  color: white;
+  padding: 1.6rem 2rem 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  box-shadow: 0 3px 16px rgba(44,24,16,0.35);
+  position: relative;
+}
+header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+header .flag { font-size: 2rem; line-height: 1; }
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--bg);
+}
+header .subtitle {
+  font-size: 0.8rem;
+  color: rgba(253,246,227,0.65);
+  margin-top: 0.18rem;
+  letter-spacing: 0.3px;
+}
+
+.nav-bar {
+  background: #FEFCF6;
+  border-bottom: 2px solid rgba(243,156,18,0.35);
+  padding: 0.55rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.83rem;
+  box-shadow: 0 1px 6px rgba(44,24,16,0.05);
+}
+.nav-link { color: var(--red); text-decoration: none; font-weight: 600; transition: color 0.15s; }
+.nav-link:hover { color: #9B2335; text-decoration: underline; }
+.nav-sep { color: rgba(243,156,18,0.5); }
+.nav-current { color: rgba(44,24,16,0.45); }
+
+.container { max-width: 820px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+
+/* ── Tabs ── */
+.tab-nav {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border-bottom: 2px solid rgba(243,156,18,0.25);
+  margin-bottom: 1.8rem;
+  padding-top: 1.5rem;
+  gap: 0;
+}
+.tab-nav::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0;
+  padding: 0.6rem 1rem;
+  border: none;
+  background: none;
+  font-size: 0.84rem;
+  font-weight: 500;
+  cursor: pointer;
+  color: rgba(44,24,16,0.45);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s;
+  font-family: 'Noto Sans TC', inherit;
+  white-space: nowrap;
+}
+.tab-btn:hover { color: var(--dark); }
+.tab-btn.active { color: var(--c); border-bottom-color: var(--c); font-weight: 700; }
+.tab-btn.quiz-tab { margin-left: auto; }
+
+/* ── Pattern box ── */
+.pattern-box {
+  background: #FEFCF6;
+  border-radius: 12px;
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 1.3rem;
+  box-shadow: 0 2px 12px rgba(44,24,16,0.07), 0 1px 4px rgba(44,24,16,0.04);
+  border-left: 4px solid var(--uc);
+  border-top: 1px solid rgba(243,156,18,0.2);
+  border-right: 1px solid rgba(243,156,18,0.2);
+  border-bottom: 1px solid rgba(243,156,18,0.2);
+}
+.pattern-label { font-size: 0.7rem; font-weight: 700; color: var(--uc); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.pattern-text { font-size: 1rem; font-weight: 700; color: var(--dark); margin-bottom: 0.3rem; font-family: 'Playfair Display', serif; }
+.pattern-note { font-size: 0.78rem; color: rgba(44,24,16,0.55); line-height: 1.6; }
+
+/* ── Sentence cards ── */
+.sentences { display: flex; flex-direction: column; gap: 0.8rem; }
+
+.sent-card {
+  background: #FEFCF6;
+  border-radius: 12px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 2px 10px rgba(44,24,16,0.06), 0 1px 3px rgba(44,24,16,0.04);
+  border: 1.5px solid rgba(243,156,18,0.2);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 0.8rem;
+  transition: box-shadow 0.18s, border-color 0.18s;
+}
+.sent-card:hover {
+  box-shadow: 0 6px 20px rgba(44,24,16,0.1);
+  border-color: rgba(243,156,18,0.38);
+}
+.sent-viet { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.4rem; font-family: 'Playfair Display', serif; }
+.sent-sino { font-size: 0.73rem; color: rgba(44,24,16,0.45); margin-bottom: 0.15rem; }
+.sent-sino::before { content: '漢越：'; color: rgba(44,24,16,0.3); }
+.sent-zh { font-size: 0.85rem; color: rgba(44,24,16,0.65); font-weight: 500; margin-bottom: 0.2rem; }
+.sent-note { font-size: 0.72rem; color: rgba(44,24,16,0.42); line-height: 1.55; }
+
+.tts-btn {
+  background: none;
+  border: 1.5px solid rgba(243,156,18,0.3);
+  border-radius: 8px;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  color: rgba(44,24,16,0.35);
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.tts-btn:hover { border-color: var(--uc); color: var(--uc); background: rgba(253,246,227,0.8); }
+
+/* ── Quiz ── */
+.quiz-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.quiz-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+.score-pill {
+  background: #FEFCF6;
+  border: 1.5px solid rgba(243,156,18,0.3);
+  border-radius: 20px;
+  padding: 0.28rem 0.9rem;
+  font-size: 0.8rem;
+  color: rgba(44,24,16,0.55);
+}
+.score-pill b { color: var(--red); }
+
+.q-progress-wrap {
+  background: rgba(44,24,16,0.08);
+  border-radius: 999px;
+  height: 5px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+}
+.q-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  border-radius: 999px;
+  transition: width 0.35s;
+}
+
+.quiz-card {
+  background: #FEFCF6;
+  border-radius: 14px;
+  padding: 1.6rem 1.6rem 1.4rem;
+  box-shadow: 0 4px 22px rgba(44,24,16,0.09), 0 1px 5px rgba(44,24,16,0.05);
+  border: 1.5px solid rgba(243,156,18,0.22);
+}
+.q-unit-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 4px;
+  margin-bottom: 0.9rem;
+}
+.q-sentence {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.6;
+  margin-bottom: 0.35rem;
+  font-family: 'Playfair Display', serif;
+}
+.blank-slot {
+  display: inline-block;
+  background: rgba(44,24,16,0.06);
+  border-bottom: 2px solid rgba(44,24,16,0.25);
+  padding: 0 0.7rem;
+  border-radius: 4px;
+  min-width: 56px;
+  text-align: center;
+  color: rgba(44,24,16,0.35);
+  font-size: 0.9em;
+  vertical-align: baseline;
+}
+.blank-slot.ok  { background: rgba(39,174,96,0.1); border-color: var(--green); color: var(--green); }
+.blank-slot.err { background: rgba(192,57,43,0.09); border-color: var(--red); color: var(--red); }
+
+.q-zh { font-size: 0.84rem; color: rgba(44,24,16,0.42); margin-bottom: 1.3rem; }
+
+.opts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.opt-btn {
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  border: 2px solid rgba(243,156,18,0.28);
+  background: #FEFCF6;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: 'Noto Sans TC', inherit;
+  transition: all 0.12s;
+  text-align: left;
+  color: var(--dark);
+}
+.opt-btn:hover:not(:disabled) { border-color: var(--red); color: var(--red); background: rgba(192,57,43,0.04); }
+.opt-btn.ok   { background: rgba(39,174,96,0.1); border-color: var(--green) !important; color: var(--green) !important; }
+.opt-btn.err  { background: rgba(192,57,43,0.09); border-color: var(--red) !important; color: var(--red) !important; }
+.opt-btn:disabled { cursor: default; }
+
+.q-exp {
+  display: none;
+  font-size: 0.8rem;
+  color: rgba(44,24,16,0.6);
+  background: rgba(243,156,18,0.07);
+  border: 1px solid rgba(243,156,18,0.22);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+.q-exp.show { display: block; }
+
+.next-btn {
+  display: none;
+  background: var(--red);
+  color: white;
+  border: 1.5px solid rgba(243,156,18,0.45);
+  border-radius: 10px;
+  padding: 0.62rem 2rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Sans TC', inherit;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+.next-btn:hover {
+  background: #9B2335;
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 3px rgba(243,156,18,0.22), 0 4px 14px rgba(192,57,43,0.3);
+}
+.next-btn.show { display: block; }
+
+/* ── Result ── */
+.result-card {
+  display: none;
+  background: #FEFCF6;
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 4px 22px rgba(44,24,16,0.09);
+  border: 1.5px solid rgba(243,156,18,0.25);
+}
+.result-card.show { display: block; }
+.result-emoji { font-size: 3rem; margin-bottom: 0.8rem; }
+.result-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 0.4rem;
+}
+.result-sub { color: rgba(44,24,16,0.5); font-size: 0.9rem; margin-bottom: 1.5rem; }
+.retry-btn {
+  background: var(--red);
+  color: white;
+  border: 1.5px solid rgba(243,156,18,0.45);
+  border-radius: 10px;
+  padding: 0.7rem 2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Noto Sans TC', inherit;
+  transition: all 0.2s;
+  letter-spacing: 0.02em;
+}
+.retry-btn:hover {
+  background: #9B2335;
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 3px rgba(243,156,18,0.22), 0 4px 14px rgba(192,57,43,0.3);
+}
+
+@media (max-width: 520px) {
+  .sent-card { grid-template-columns: 1fr; }
+  header { padding: 1.2rem 1.2rem; }
+  .nav-bar { padding: 0.5rem 1.2rem; }
+  .container { padding: 0 1rem 3rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="pattern-band"></div>
+
+<header>
+  <div class="flag">🇻🇳</div>
+  <div>
+    <h1>越南語基礎文法</h1>
+    <div class="subtitle">句型說明與填空練習</div>
+  </div>
+</header>
+
+<nav class="nav-bar">
+  <a class="nav-link" href="home.html">← 首頁</a>
+  <span class="nav-sep">/</span>
+  <a class="nav-link" href="index.html">單字學習</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">基礎文法</span>
+</nav>
+
+<div class="container">
+  <div class="tab-nav" id="tabNav"></div>
+  <div id="content"></div>
+</div>
+
+<script>
+const ttsOK = 'speechSynthesis' in window;
+
+function speak(text) {
+  if (!ttsOK) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'vi-VN'; u.rate = 0.82;
+  window.speechSynthesis.speak(u);
+}
+
+// ── Data ─────────────────────────────────────────────
+const UNITS = [
+  {
+    title: '自我介紹', color: '#1565c0', colorBg: 'rgba(21,101,192,0.09)',
+    pattern: 'Tôi là + [身份] ／ Tôi tên là + [名字]',
+    patternNote: 'là 相當於中文「是」，後接名詞；tên（漢越詞：名）表示名字。Tôi（漢越詞：𠇒）= 我。',
+    sents: [
+      { viet:'Tôi là sinh viên.', sino:'sinh viên（生員）→ 大學生', zh:'我是學生。', note:'là 後接身份或職業。聲調：tôi（中平）、là（低降）、sinh（銳）、viên（中平）' },
+      { viet:'Tôi tên là An.', sino:'tên（漢越詞：名）', zh:'我的名字是安。', note:'tên là 是固定搭配「名字叫」，An 是常見越南名字（中平調）' },
+      { viet:'Tôi là người Đài Loan.', sino:'người（人）', zh:'我是台灣人。', note:'người + [國家] = [某國]人。Đài Loan 為音譯' },
+      { viet:'Tôi đang học tiếng Việt.', sino:'học（漢越詞：學）、tiếng Việt（越南語）', zh:'我正在學越南語。', note:'đang 是進行式標記，相當於英語 "am/is/are -ing"，放在動詞前' }
+    ]
+  },
+  {
+    title: '問候應答', color: '#2e7d32', colorBg: 'rgba(46,125,50,0.09)',
+    pattern: 'Bạn khỏe không？ ／ Khỏe, cảm ơn',
+    patternNote: '基本問候：[主語] + [形容詞] + không？構成是非問句。回答直接說形容詞。còn 反問對方「你呢？」',
+    sents: [
+      { viet:'Bạn khỏe không?', sino:'bạn（漢越詞：伴→你）', zh:'你好嗎？', note:'句尾 không 構成是非疑問。聲調：bạn（重聲）、khỏe（問聲）、không（中平）' },
+      { viet:'Khỏe, cảm ơn. Còn bạn?', sino:'cảm ơn（漢越詞：感恩）', zh:'很好，謝謝。你呢？', note:'còn = 還有/那麼，反問對方情況。標準問候回應公式' },
+      { viet:'Không khỏe lắm.', sino:'', zh:'不太好。', note:'lắm = 很/非常；否定句搭配 lắm 意為「不太...」。khỏe（問聲調）' },
+      { viet:'Bạn tên là gì?', sino:'tên（漢越詞：名）', zh:'你叫什麼名字？', note:'gì = 什麼（疑問詞），通常放句尾。聲調：gì（低降調）' }
+    ]
+  },
+  {
+    title: '詢問價錢', color: '#e65100', colorBg: 'rgba(230,81,0,0.09)',
+    pattern: 'Cái này bao nhiêu tiền？',
+    patternNote: 'bao nhiêu = 多少（數量疑問詞）；tiền（漢越詞：錢）可省略；cái 是量詞「個」。',
+    sents: [
+      { viet:'Cái này bao nhiêu tiền?', sino:'tiền（漢越詞：錢）', zh:'這個多少錢？', note:'cái này = 這個；cái kia = 那個；cái đó = 那個（較遠）' },
+      { viet:'Đắt quá!', sino:'', zh:'太貴了！', note:'đắt = 貴；rẻ = 便宜（反義）。quá = 太/非常，放形容詞後。聲調：đắt（銳調）' },
+      { viet:'Rẻ hơn được không?', sino:'', zh:'可以便宜一點嗎？', note:'hơn = 更（比較詞）；được không = 可以嗎？是禮貌請求句尾' },
+      { viet:'Cho tôi xem cái này.', sino:'', zh:'讓我看看這個。', note:'cho + [人] + [動詞] = 讓某人做某事；xem = 看' }
+    ]
+  },
+  {
+    title: '點餐購物', color: '#6a1b9a', colorBg: 'rgba(106,27,154,0.09)',
+    pattern: 'Cho tôi... ／ Tôi muốn...',
+    patternNote: 'cho tôi（給我）是最常用點餐句；muốn = 想要，後接動詞或名詞。',
+    sents: [
+      { viet:'Cho tôi một tô phở.', sino:'', zh:'請給我一碗河粉。', note:'một = 一；tô = 大碗（量詞）；phở = 河粉。cho tôi 字面為「給我」' },
+      { viet:'Tôi muốn gọi món.', sino:'', zh:'我想點餐。', note:'muốn = 想要；gọi = 呼叫；món = 菜餚。gọi món 固定搭配「點菜」' },
+      { viet:'Tính tiền đi!', sino:'tính（漢越詞：算）、tiền（漢越詞：錢）', zh:'結帳！', note:'đi 放句尾表催促語氣。tính tiền 字面為「算錢」，即結帳' },
+      { viet:'Ở đây có bán không?', sino:'', zh:'這裡有賣嗎？', note:'ở đây = 在這裡；có...không = 有...嗎（疑問句型）；bán = 賣' }
+    ]
+  },
+  {
+    title: '否定句', color: '#c62828', colorBg: 'rgba(198,40,40,0.09)',
+    pattern: 'không + 動詞／形容詞',
+    patternNote: '否定詞 không 放在動詞或形容詞前，相當於英語 "don\'t / not"。位置固定在動詞正前方。',
+    sents: [
+      { viet:'Tôi không hiểu.', sino:'', zh:'我不懂。', note:'hiểu = 理解、聽懂；biết = 知道（細微差別）。聲調：hiểu（問聲調）' },
+      { viet:'Tôi không biết.', sino:'', zh:'我不知道。', note:'biết = 知道某事；hiểu = 理解某概念。兩個都是常用否定句' },
+      { viet:'Tôi không thích cái này.', sino:'', zh:'我不喜歡這個。', note:'thích = 喜歡；cái này = 這個（量詞 cái + 指示詞 này）' },
+      { viet:'Anh ấy không đến hôm nay.', sino:'hôm nay（漢越詞：今日）', zh:'他今天不來。', note:'anh ấy = 他（男性）；đến = 來/到達；hôm nay = 今天' }
+    ]
+  },
+  {
+    title: '疑問句', color: '#00695c', colorBg: 'rgba(0,105,92,0.09)',
+    pattern: 'Có...không？ ／ ...là gì？',
+    patternNote: '核心疑問句型：(1) Có + [動詞] + không？= 有...嗎？ (2) ...là gì？= ...是什麼？',
+    sents: [
+      { viet:'Bạn có khỏe không?', sino:'bạn（漢越詞：伴）', zh:'你好嗎？（có...không 句型）', note:'有 + 形容詞 + 嗎。比 Bạn khỏe không? 更正式，加了 có 強調' },
+      { viet:'Đây là gì?', sino:'', zh:'這是什麼？', note:'đây = 這裡/這個（近指）；đó/kia = 那個（遠指）。gì = 什麼，放句尾' },
+      { viet:'Cái này tiếng Việt là gì?', sino:'tiếng Việt（越南語）', zh:'這個越南語怎麼說？', note:'學習越南語時最實用的問句，字面：這個越南語是什麼？' },
+      { viet:'Tại sao bạn không đến?', sino:'tại sao（漢越詞：在所→為何）', zh:'你為什麼不來？', note:'tại sao = 為什麼，是固定搭配，放句首；也可用 vì sao' }
+    ]
+  }
+];
+
+const EX = [
+  { u:0, viet:'Tôi ___ sinh viên.',         zh:'我是學生。',           ans:'là',     opts:['là','có','không','muốn'], exp:'là 是越南語的 be 動詞「是」，後接身份或名詞' },
+  { u:0, viet:'Tôi đang ___ tiếng Việt.',   zh:'我正在學越南語。',     ans:'học',    opts:['học','là','biết','không'], exp:'học（漢越詞：學）= 學習；đang học = 正在學習（進行式）' },
+  { u:0, viet:'Tôi là ___ Đài Loan.',        zh:'我是台灣人。',         ans:'người',  opts:['người','tên','bạn','cái'], exp:'người = 人，người + [國名] = [某國]人，固定搭配' },
+  { u:1, viet:'Bạn ___ không?',             zh:'你好嗎？',             ans:'khỏe',   opts:['khỏe','ăn','là','muốn'],  exp:'khỏe = 健康/好，放在 không 前構成問候疑問句' },
+  { u:1, viet:'Khỏe, cảm ơn. ___ bạn?',    zh:'很好，謝謝。你呢？',   ans:'Còn',    opts:['Còn','Không','Là','Bạn'],  exp:'còn = 還有/那麼，反問對方「你呢？」是標準回應' },
+  { u:1, viet:'Bạn tên là ___?',            zh:'你叫什麼名字？',       ans:'gì',     opts:['gì','không','có','bao nhiêu'], exp:'gì = 什麼（疑問詞），通常放句尾；tên là gì = 名字是什麼' },
+  { u:2, viet:'Cái này bao nhiêu ___?',     zh:'這個多少錢？',         ans:'tiền',   opts:['tiền','người','tên','món'], exp:'tiền（漢越詞：錢）= 錢，bao nhiêu tiền = 多少錢，tiền 可省略' },
+  { u:2, viet:'___ quá! Rẻ hơn được không?', zh:'太貴了！可以便宜一點嗎？', ans:'Đắt', opts:['Đắt','Ngon','Nhiều','Rẻ'], exp:'đắt = 貴；rẻ = 便宜（反義）；ngon = 好吃；nhiều = 多' },
+  { u:2, viet:'Rẻ ___ được không?',         zh:'可以便宜一點嗎？',     ans:'hơn',    opts:['hơn','quá','lắm','nhiều'], exp:'hơn = 更（比較詞），rẻ hơn = 便宜一點；được không = 可以嗎' },
+  { u:3, viet:'___ tôi một tô phở.',        zh:'請給我一碗河粉。',     ans:'Cho',    opts:['Cho','Tôi','Bạn','Muốn'],  exp:'cho = 給；cho tôi = 給我/請給我，是點餐購物最常用句型' },
+  { u:3, viet:'Tôi ___ gọi món.',           zh:'我想點餐。',           ans:'muốn',   opts:['muốn','là','có','không'],  exp:'muốn = 想要，後接動詞表達意願；gọi món = 點菜' },
+  { u:3, viet:'Tính ___ đi!',               zh:'結帳！',               ans:'tiền',   opts:['tiền','món','bạn','là'],   exp:'tính（漢越：算）+ tiền（漢越：錢）= 算錢/結帳；đi 表催促' },
+  { u:4, viet:'Tôi ___ hiểu.',              zh:'我不懂。',             ans:'không',  opts:['không','có','là','muốn'],  exp:'không 放動詞前表否定，相當於英語 don\'t/not' },
+  { u:4, viet:'Anh ấy không ___ hôm nay.',  zh:'他今天不來。',         ans:'đến',    opts:['đến','là','tiền','bạn'],   exp:'đến = 來/到達；không đến = 不來；hôm nay（漢越：今日）= 今天' },
+  { u:4, viet:'Tôi không ___ cái này.',     zh:'我不喜歡這個。',       ans:'thích',  opts:['thích','là','có','biết'],  exp:'thích = 喜歡；không thích = 不喜歡；biết = 知道（意思不同）' },
+  { u:5, viet:'Bạn ___ khỏe không?',        zh:'你好嗎？',             ans:'có',     opts:['có','là','không','muốn'],  exp:'có...không？是固定疑問句型：有 + [動詞/形容詞] + 嗎' },
+  { u:5, viet:'Đây là ___?',                zh:'這是什麼？',           ans:'gì',     opts:['gì','không','có','là'],    exp:'...là gì？= ...是什麼？gì 是疑問詞，放在 là 後句尾' },
+  { u:5, viet:'___ sao bạn không đến?',     zh:'你為什麼不來？',       ans:'Tại',    opts:['Tại','Vì','Bạn','Không'],  exp:'tại sao（漢越詞：在所）= 為什麼，固定搭配，不能拆開使用' }
+];
+
+// ── State ─────────────────────────────────────────────
+let activeTab = 0;
+let qIdx = 0, qCorrect = 0, qDone = false;
+
+// ── Tabs ──────────────────────────────────────────────
+function buildTabs() {
+  const nav = document.getElementById('tabNav');
+  nav.innerHTML = UNITS.map((u, i) =>
+    `<button class="tab-btn${i===0?' active':''}" style="--c:${u.color}" onclick="showTab(${i})">${u.title}</button>`
+  ).join('') +
+  `<button class="tab-btn quiz-tab" style="--c:#c62828" onclick="showTab(6)">✏️ 練習題</button>`;
+}
+
+function showTab(idx) {
+  activeTab = idx;
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.getElementById('content').innerHTML = idx < 6 ? buildUnit(idx) : buildQuizShell();
+  if (idx === 6) { qIdx = 0; qCorrect = 0; qDone = false; showQ(); }
+}
+
+// ── Unit panel ────────────────────────────────────────
+function buildUnit(idx) {
+  const u = UNITS[idx];
+  const cards = u.sents.map((s, si) => {
+    const sinoRow = s.sino ? `<div class="sent-sino">${s.sino}</div>` : '';
+    const ttsBtn = ttsOK ? `<button class="tts-btn" onclick="speakS(${idx},${si})">🔊</button>` : '';
+    return `<div class="sent-card">
+      <div>
+        <div class="sent-viet" style="color:${u.color}">${s.viet}</div>
+        ${sinoRow}
+        <div class="sent-zh">${s.zh}</div>
+        <div class="sent-note">${s.note}</div>
+      </div>
+      ${ttsBtn}
+    </div>`;
+  }).join('');
+
+  return `<div style="--uc:${u.color}">
+    <div class="pattern-box">
+      <div class="pattern-label">核心句型</div>
+      <div class="pattern-text">${u.pattern}</div>
+      <div class="pattern-note">${u.patternNote}</div>
+    </div>
+    <div class="sentences">${cards}</div>
+  </div>`;
+}
+
+function speakS(uIdx, sIdx) { speak(UNITS[uIdx].sents[sIdx].viet); }
+
+// ── Quiz shell ────────────────────────────────────────
+function buildQuizShell() {
+  return `<div>
+    <div class="quiz-top">
+      <div class="quiz-heading">填空練習</div>
+      <div class="score-pill">答對 <b id="qC">0</b> / <b id="qT">0</b> 題</div>
+    </div>
+    <div class="q-progress-wrap"><div class="q-progress-bar" id="qBar" style="width:0%"></div></div>
+    <div id="qCard"></div>
+    <div class="result-card" id="resultCard">
+      <div class="result-emoji" id="rEmoji"></div>
+      <div class="result-title" id="rTitle"></div>
+      <div class="result-sub"   id="rSub"></div>
+      <button class="retry-btn" onclick="retryQ()">重新練習</button>
+    </div>
+  </div>`;
+}
+
+// ── Show question ─────────────────────────────────────
+function showQ() {
+  if (qIdx >= EX.length) { showResult(); return; }
+  const q = EX[qIdx];
+  const u = UNITS[q.u];
+  const sentHtml = q.viet.replace('___', `<span class="blank-slot" id="bs">___</span>`);
+  const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+  const optHtml  = shuffled.map(o =>
+    `<button class="opt-btn" data-v="${o}" onclick="answerQ(this)">${o}</button>`
+  ).join('');
+
+  document.getElementById('qCard').innerHTML = `
+    <div class="quiz-card">
+      <span class="q-unit-tag" style="color:${u.color};background:${u.colorBg}">${u.title}</span>
+      <div class="q-sentence">${sentHtml}</div>
+      <div class="q-zh">${q.zh}</div>
+      <div class="opts-grid">${optHtml}</div>
+      <div class="q-exp" id="qExp"></div>
+      <button class="next-btn" id="qNext" onclick="nextQ()">
+        ${qIdx < EX.length - 1 ? '下一題 →' : '查看結果'}
+      </button>
+    </div>`;
+
+  document.getElementById('qBar').style.width = `${(qIdx / EX.length) * 100}%`;
+}
+
+// ── Answer ────────────────────────────────────────────
+function answerQ(btn) {
+  if (qDone) return;
+  qDone = true;
+  const q = EX[qIdx];
+  const chosen = btn.dataset.v;
+  const ok = chosen === q.ans;
+  if (ok) qCorrect++;
+  qIdx++;
+
+  document.getElementById('qC').textContent = qCorrect;
+  document.getElementById('qT').textContent = qIdx;
+  document.getElementById('qBar').style.width = `${(qIdx / EX.length) * 100}%`;
+
+  document.querySelectorAll('.opt-btn').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.v === q.ans) b.classList.add('ok');
+    else if (b.dataset.v === chosen) b.classList.add('err');
+  });
+
+  const slot = document.getElementById('bs');
+  slot.textContent = q.ans;
+  slot.className = 'blank-slot ' + (ok ? 'ok' : 'err');
+
+  const exp = document.getElementById('qExp');
+  exp.textContent = (ok ? '✅ 答對！　' : `❌ 正確答案是「${q.ans}」。　`) + q.exp;
+  exp.classList.add('show');
+  document.getElementById('qNext').classList.add('show');
+}
+
+function nextQ() { qDone = false; document.getElementById('qCard').innerHTML = ''; showQ(); }
+
+// ── Result ────────────────────────────────────────────
+function showResult() {
+  document.getElementById('qCard').innerHTML = '';
+  const pct = Math.round((qCorrect / EX.length) * 100);
+  document.getElementById('rEmoji').textContent = pct >= 90 ? '🏆' : pct >= 70 ? '🎉' : pct >= 50 ? '👍' : '📚';
+  document.getElementById('rTitle').textContent = pct >= 90 ? '太厲害了！' : pct >= 70 ? '表現不錯！' : pct >= 50 ? '繼續加油！' : '再多練習幾次吧';
+  document.getElementById('rSub').textContent   = `答對 ${qCorrect} / ${EX.length} 題（${pct}%）`;
+  document.getElementById('resultCard').classList.add('show');
+  document.getElementById('qBar').style.width = '100%';
+}
+
+function retryQ() {
+  qIdx = 0; qCorrect = 0; qDone = false;
+  document.getElementById('qC').textContent = 0;
+  document.getElementById('qT').textContent = 0;
+  document.getElementById('resultCard').classList.remove('show');
+  document.getElementById('qCard').innerHTML = '';
+  showQ();
+}
+
+// ── Init ──────────────────────────────────────────────
+buildTabs();
+showTab(0);
+</script>
+</body>
+</html>

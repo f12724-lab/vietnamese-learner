@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>數字時間 · 越南語學習</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:  #C0392B;
+  --gold: #F39C12;
+  --bg:   #FDF6E3;
+  --dark: #2C1810;
+  --green:#27AE60;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', 'Segoe UI', Arial, sans-serif;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 40px,
+    rgba(192,57,43,0.022) 40px, rgba(192,57,43,0.022) 41px
+  );
+  color: var(--dark);
+  min-height: 100vh;
+}
+
+.pattern-band {
+  height: 12px;
+  background-color: var(--red);
+  background-image:
+    linear-gradient(135deg, var(--gold) 25%, transparent 25%) -6px 0,
+    linear-gradient(225deg, var(--gold) 25%, transparent 25%) -6px 0,
+    linear-gradient(315deg, var(--gold) 25%, transparent 25%),
+    linear-gradient(45deg,  var(--gold) 25%, transparent 25%);
+  background-size: 12px 12px;
+}
+
+.nav-bar {
+  background: var(--bg);
+  border-bottom: 2px solid rgba(243,156,18,0.38);
+  padding: 0.6rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.83rem;
+}
+.nav-link { color: var(--red); text-decoration: none; font-weight: 600; }
+.nav-link:hover { color: #D4AC0D; }
+.nav-sep { color: rgba(243,156,18,0.5); }
+.nav-current { color: rgba(44,24,16,0.55); font-weight: 600; }
+
+.page-header {
+  background: linear-gradient(135deg, #2C1810 0%, #7B1F12 60%, #C0392B 100%);
+  color: white;
+  text-align: center;
+  padding: 2.8rem 1.5rem;
+  position: relative;
+  border-bottom: 2px solid rgba(243,156,18,0.3);
+}
+.page-header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 50%; transform: translateX(-50%);
+  width: 64px; height: 2px;
+  background: var(--gold);
+}
+.header-icon { font-size: 2.6rem; margin-bottom: 0.6rem; }
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: var(--bg);
+}
+.page-header p { opacity: 0.75; font-style: italic; color: rgba(253,246,227,0.8); }
+
+.container { max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+.tab-nav {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.8rem;
+  border-bottom: 2px solid rgba(243,156,18,0.22);
+}
+.tab-btn {
+  padding: 0.55rem 1.2rem;
+  border: none;
+  background: none;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: rgba(44,24,16,0.5);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+.tab-btn.active { color: var(--red); border-bottom-color: var(--red); }
+.tab-btn:hover:not(.active) { color: var(--dark); }
+
+.unit-panel { display: none; }
+.unit-panel.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.unit-panel.active { animation: fadeUp 0.35s ease both; }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark);
+  margin: 1.5rem 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.section-title:first-child { margin-top: 0; }
+
+.rule-box {
+  background: #FEFCF6;
+  border-left: 3px solid var(--red);
+  border-radius: 0 10px 10px 0;
+  padding: 0.9rem 1.15rem;
+  margin-bottom: 0.9rem;
+  font-size: 0.87rem;
+  line-height: 1.75;
+  box-shadow: 0 2px 8px rgba(44,24,16,0.05);
+  border-top: 1px solid rgba(243,156,18,0.15);
+  border-right: 1px solid rgba(243,156,18,0.15);
+  border-bottom: 1px solid rgba(243,156,18,0.15);
+}
+.rule-box strong { color: var(--red); }
+
+.special-box {
+  background: #FEFAE0;
+  border: 1.5px solid rgba(243,156,18,0.45);
+  border-radius: 12px;
+  padding: 0.9rem 1.15rem;
+  margin-bottom: 1rem;
+  font-size: 0.87rem;
+  line-height: 1.75;
+  box-shadow: 0 2px 8px rgba(243,156,18,0.08);
+}
+.special-box .sp-title {
+  font-weight: 700;
+  color: #7D5A00;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.45rem;
+}
+
+.num-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(138px, 1fr));
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+.num-cell {
+  background: #FEFCF6;
+  border: 1px solid rgba(243,156,18,0.2);
+  border-radius: 10px;
+  padding: 0.48rem 0.78rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 1px 4px rgba(44,24,16,0.04);
+}
+.num-cell:hover {
+  background: #FEF9E7;
+  border-color: rgba(243,156,18,0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(44,24,16,0.08);
+}
+.num-cell .num { font-weight: 700; color: var(--red); min-width: 2rem; font-size: 0.82rem; }
+.num-cell .viet { color: var(--dark); flex: 1; }
+.num-cell .si { color: rgba(44,24,16,0.25); font-size: 0.75rem; }
+.num-cell:hover .si { color: var(--gold); }
+.num-cell.special { background: #FEF9E7; border-color: rgba(243,156,18,0.45); }
+.num-cell.special .viet { color: #7D5A00; font-weight: 700; }
+
+.ex-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.87rem;
+  margin-bottom: 1.2rem;
+  background: #FEFCF6;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(44,24,16,0.06);
+  border: 1px solid rgba(243,156,18,0.2);
+}
+.ex-table th {
+  background: rgba(44,24,16,0.04);
+  padding: 0.55rem 1rem;
+  text-align: left;
+  font-size: 0.74rem;
+  color: rgba(44,24,16,0.55);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(243,156,18,0.2);
+}
+.ex-table td { padding: 0.62rem 1rem; border-top: 1px solid rgba(243,156,18,0.1); }
+.ex-table tr:hover td { background: #FEF9E7; }
+.viet-col { color: var(--red); font-weight: 700; }
+.spk {
+  background: none;
+  border: 1px solid rgba(243,156,18,0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  color: rgba(44,24,16,0.3);
+  padding: 0.15rem 0.4rem;
+  font-size: 0.88rem;
+  transition: all 0.15s;
+}
+.spk:hover { color: var(--red); border-color: var(--red); background: rgba(192,57,43,0.06); }
+
+/* Quiz */
+.quiz-section {
+  background: #FEFCF6;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 18px rgba(44,24,16,0.07), 0 1px 4px rgba(44,24,16,0.04);
+  border: 1.5px solid rgba(243,156,18,0.22);
+  margin-top: 2rem;
+}
+.quiz-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.quiz-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--dark);
+}
+.quiz-score-lbl { font-size: 0.8rem; color: rgba(44,24,16,0.4); }
+
+.quiz-start-btn {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--red);
+  color: white;
+  border: 2px solid rgba(243,156,18,0.45);
+  border-radius: 10px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quiz-start-btn:hover {
+  background: #A93226;
+  box-shadow: 0 0 0 3px rgba(243,156,18,0.22), 0 4px 12px rgba(192,57,43,0.28);
+  transform: translateY(-1px);
+}
+
+.quiz-body { display: none; }
+.quiz-body.open { display: block; }
+
+.q-prog { height: 3px; background: rgba(44,24,16,0.08); border-radius: 99px; margin-bottom: 1rem; }
+.q-prog-bar { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); border-radius: 99px; transition: width 0.3s; }
+.q-num { font-size: 0.76rem; color: rgba(44,24,16,0.42); margin-bottom: 0.45rem; }
+.q-text { font-size: 1.05rem; font-weight: 700; margin-bottom: 1rem; line-height: 1.5; color: var(--dark); }
+.hl { color: var(--red); font-size: 1.25rem; }
+
+.opts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.55rem; margin-bottom: 0.75rem; }
+.opt {
+  padding: 0.65rem 0.85rem;
+  border: 1.5px solid rgba(243,156,18,0.25);
+  border-radius: 10px;
+  background: #FEFCF6;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.87rem;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.14s;
+  line-height: 1.4;
+  color: var(--dark);
+}
+.opt:hover:not(:disabled) {
+  border-color: var(--red);
+  background: rgba(192,57,43,0.05);
+  transform: translateY(-1px);
+}
+.opt.ok { border-color: var(--green); background: #E9FAF0; color: #1E8449; font-weight: 700; }
+.opt.err { border-color: var(--red); background: #FEF0EE; color: var(--red); }
+.opt:disabled { cursor: default; }
+
+.q-exp {
+  font-size: 0.82rem;
+  color: rgba(44,24,16,0.65);
+  background: rgba(243,156,18,0.07);
+  border: 1px solid rgba(243,156,18,0.2);
+  border-radius: 8px;
+  padding: 0.55rem 0.8rem;
+  margin-bottom: 0.75rem;
+  display: none;
+}
+.q-exp.show { display: block; }
+
+.q-next {
+  padding: 0.5rem 1.2rem;
+  background: var(--red);
+  color: white;
+  border: 2px solid rgba(243,156,18,0.4);
+  border-radius: 8px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: none;
+  transition: all 0.2s;
+}
+.q-next.show { display: inline-block; }
+.q-next:hover { background: #A93226; transform: translateY(-1px); }
+
+.quiz-result { display: none; text-align: center; padding: 0.75rem 0; }
+.quiz-result.show { display: block; }
+.r-score {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+.r-msg { font-size: 0.87rem; color: rgba(44,24,16,0.55); margin-bottom: 1rem; }
+.retry-btn {
+  padding: 0.48rem 1.4rem;
+  background: rgba(44,24,16,0.06);
+  color: var(--dark);
+  border: 1px solid rgba(243,156,18,0.3);
+  border-radius: 8px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.retry-btn:hover { background: rgba(243,156,18,0.12); }
+
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.78rem;
+  color: rgba(44,24,16,0.36);
+  border-top: 1px solid rgba(243,156,18,0.18);
+  margin-top: 2rem;
+}
+
+@media (max-width: 500px) {
+  .container { padding: 1.5rem 1rem; }
+  .opts { grid-template-columns: 1fr; }
+  .num-grid { grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); }
+  .tab-btn { padding: 0.5rem 0.85rem; font-size: 0.82rem; }
+}
+</style>
+</head>
+<body>
+<div class="pattern-band"></div>
+
+<nav class="nav-bar">
+  <a class="nav-link" href="home.html">← 首頁</a>
+  <span class="nav-sep">/</span>
+  <span class="nav-current">數字時間</span>
+</nav>
+
+<header class="page-header">
+  <div class="header-icon">🔢</div>
+  <h1>數字與時間</h1>
+  <p>Số và Thời gian</p>
+</header>
+
+<div class="container">
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showUnit(0)">基礎數字（0–99）</button>
+    <button class="tab-btn" onclick="showUnit(1)">大數字</button>
+    <button class="tab-btn" onclick="showUnit(2)">時間說法</button>
+  </div>
+
+  <!-- ══ Unit 0: Basic Numbers ══ -->
+  <div class="unit-panel active" id="u0">
+    <div class="section-title">📖 數字規則</div>
+
+    <div class="rule-box">
+      <strong>0–10</strong>：完整記憶基本詞彙<br>
+      không · một · hai · ba · bốn · năm · sáu · bảy · tám · chín · mười
+    </div>
+    <div class="rule-box">
+      <strong>11–19</strong>：mười + 個位數<br>
+      例：11 = mười một、12 = mười hai … 但 <strong>15 = mười lăm</strong>（非 mười năm）
+    </div>
+    <div class="rule-box">
+      <strong>20–99</strong>：[十位] mươi + 個位<br>
+      ● 個位 1 → <strong>mốt</strong>（非 một）：21 = hai mươi mốt<br>
+      ● 個位 4 → <strong>tư</strong>（替代 bốn）：24 = hai mươi tư<br>
+      ● 個位 5 → <strong>lăm</strong>（非 năm）：25 = hai mươi lăm<br>
+      ● 個位 0 → 只寫十位：30 = ba mươi
+    </div>
+    <div class="special-box">
+      <div class="sp-title">⚡ 重點特殊說法</div>
+      15 → mười <b>lăm</b> &nbsp;|&nbsp;
+      21 → hai mươi <b>mốt</b> &nbsp;|&nbsp;
+      24 → hai mươi <b>tư</b> &nbsp;|&nbsp;
+      25 → hai mươi <b>lăm</b> &nbsp;|&nbsp;
+      31 → ba mươi <b>mốt</b> &nbsp;|&nbsp;
+      54 → năm mươi <b>tư</b>
+    </div>
+
+    <div class="section-title">🔢 0–20 對照表 <span style="font-size:0.75rem;font-weight:400;color:rgba(44,24,16,0.4)">（點擊朗讀）</span></div>
+    <div class="num-grid" id="g0to20"></div>
+
+    <div class="section-title">📋 整十數與特殊示範</div>
+    <div class="num-grid" id="gTens"></div>
+
+    <div class="quiz-section">
+      <div class="quiz-header">
+        <span class="quiz-title">🎯 基礎數字練習</span>
+        <span class="quiz-score-lbl" id="sc0"></span>
+      </div>
+      <button class="quiz-start-btn" id="sb0" onclick="startQ(0)">開始練習（8 題）</button>
+      <div class="quiz-body" id="qb0">
+        <div class="q-prog"><div class="q-prog-bar" id="qbar0"></div></div>
+        <div class="q-num" id="qn0"></div>
+        <div class="q-text" id="qt0"></div>
+        <div class="opts" id="qo0"></div>
+        <div class="q-exp" id="qe0"></div>
+        <button class="q-next" id="qnx0" onclick="nextQ(0)">下一題 →</button>
+      </div>
+      <div class="quiz-result" id="qr0">
+        <div class="r-score" id="rs0"></div>
+        <div class="r-msg" id="rm0"></div>
+        <button class="retry-btn" onclick="startQ(0)">再練一次</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Unit 1: Large Numbers ══ -->
+  <div class="unit-panel" id="u1">
+    <div class="section-title">📖 大數字規則</div>
+
+    <div class="rule-box">
+      <strong>百（trăm）</strong>：[百位] trăm<br>
+      100 = một trăm、200 = hai trăm、500 = năm trăm
+    </div>
+    <div class="rule-box">
+      <strong>千（nghìn）</strong>：[千位] nghìn（北部）/ ngàn（南部）<br>
+      1,000 = một nghìn、5,000 = năm nghìn、10,000 = mười nghìn
+    </div>
+    <div class="rule-box">
+      <strong>百萬（triệu）</strong>：[百萬位] triệu<br>
+      1,000,000 = một triệu、2,500,000 = hai triệu năm trăm nghìn
+    </div>
+    <div class="special-box">
+      <div class="sp-title">⚡ 補零說法：linh（北部）/ lẻ（南部）</div>
+      整百或整千後有不足位時用 <b>linh</b> 補零：<br>
+      105 = một trăm <b>linh</b> năm &nbsp;|&nbsp;
+      2,005 = hai nghìn <b>linh</b> năm &nbsp;|&nbsp;
+      2,050 = hai nghìn <b>linh</b> năm mươi
+    </div>
+
+    <div class="section-title">📋 常用大數字 <span style="font-size:0.75rem;font-weight:400;color:rgba(44,24,16,0.4)">（點擊🔊朗讀）</span></div>
+    <table class="ex-table">
+      <thead><tr><th>數字</th><th>越南語</th><th>中文</th><th></th></tr></thead>
+      <tbody id="ltBody"></tbody>
+    </table>
+
+    <div class="quiz-section">
+      <div class="quiz-header">
+        <span class="quiz-title">🎯 大數字練習</span>
+        <span class="quiz-score-lbl" id="sc1"></span>
+      </div>
+      <button class="quiz-start-btn" id="sb1" onclick="startQ(1)">開始練習（6 題）</button>
+      <div class="quiz-body" id="qb1">
+        <div class="q-prog"><div class="q-prog-bar" id="qbar1"></div></div>
+        <div class="q-num" id="qn1"></div>
+        <div class="q-text" id="qt1"></div>
+        <div class="opts" id="qo1"></div>
+        <div class="q-exp" id="qe1"></div>
+        <button class="q-next" id="qnx1" onclick="nextQ(1)">下一題 →</button>
+      </div>
+      <div class="quiz-result" id="qr1">
+        <div class="r-score" id="rs1"></div>
+        <div class="r-msg" id="rm1"></div>
+        <button class="retry-btn" onclick="startQ(1)">再練一次</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Unit 2: Time ══ -->
+  <div class="unit-panel" id="u2">
+    <div class="section-title">🕐 時刻說法</div>
+
+    <div class="rule-box">
+      <strong>幾點了？</strong>：Bây giờ là mấy giờ?（現在是幾點？）<br>
+      [數字] <strong>giờ</strong> = 幾點 &nbsp;|&nbsp; [數字] <strong>phút</strong> = 幾分 &nbsp;|&nbsp; <strong>rưỡi</strong> = 半（30分）
+    </div>
+    <div class="rule-box">
+      <strong>時段詞（放在時刻後面）</strong><br>
+      sáng（上午/早上）· chiều（下午）· tối（傍晚/晚上）· đêm（深夜）· trưa（正午）<br>
+      例：8:00 AM = tám giờ sáng &nbsp;|&nbsp; 3:30 PM = ba giờ rưỡi chiều
+    </div>
+    <div class="rule-box">
+      <strong>相對日期</strong>：hôm nay（今天）· hôm qua（昨天）· ngày mai（明天）· ngày kia（後天）<br>
+      <strong>星期</strong>：thứ hai（一）· thứ ba（二）· thứ tư（三）· thứ năm（四）· thứ sáu（五）· thứ bảy（六）· chủ nhật（日）<br>
+      <em>星期從 hai（2）開始排序；週日特稱 chủ nhật（主日），不用數字。</em>
+    </div>
+
+    <div class="section-title">⏰ 時刻例句 <span style="font-size:0.75rem;font-weight:400;color:rgba(44,24,16,0.4)">（點擊🔊朗讀）</span></div>
+    <table class="ex-table">
+      <thead><tr><th>時刻</th><th>越南語</th><th>中文</th><th></th></tr></thead>
+      <tbody id="ttBody"></tbody>
+    </table>
+
+    <div class="section-title">📅 星期對照表 <span style="font-size:0.75rem;font-weight:400;color:rgba(44,24,16,0.4)">（點擊朗讀）</span></div>
+    <div class="num-grid" id="gWeek"></div>
+
+    <div class="quiz-section">
+      <div class="quiz-header">
+        <span class="quiz-title">🎯 時間說法練習</span>
+        <span class="quiz-score-lbl" id="sc2"></span>
+      </div>
+      <button class="quiz-start-btn" id="sb2" onclick="startQ(2)">開始練習（8 題）</button>
+      <div class="quiz-body" id="qb2">
+        <div class="q-prog"><div class="q-prog-bar" id="qbar2"></div></div>
+        <div class="q-num" id="qn2"></div>
+        <div class="q-text" id="qt2"></div>
+        <div class="opts" id="qo2"></div>
+        <div class="q-exp" id="qe2"></div>
+        <button class="q-next" id="qnx2" onclick="nextQ(2)">下一題 →</button>
+      </div>
+      <div class="quiz-result" id="qr2">
+        <div class="r-score" id="rs2"></div>
+        <div class="r-msg" id="rm2"></div>
+        <button class="retry-btn" onclick="startQ(2)">再練一次</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>越南語學習工具 · Công cụ học Tiếng Việt</footer>
+
+<script>
+// ── TTS ──
+function speak(t) {
+  if (!window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t);
+  u.lang = 'vi-VN'; u.rate = 0.85;
+  speechSynthesis.speak(u);
+}
+
+// ── Vietnamese number converter ──
+const ONES = ['không','một','hai','ba','bốn','năm','sáu','bảy','tám','chín'];
+
+function v19(n) {
+  if (n < 10) return ONES[n];
+  if (n === 10) return 'mười';
+  const u = n - 10;
+  return 'mười ' + (u === 5 ? 'lăm' : ONES[u]);
+}
+
+function v99(n) {
+  if (n < 20) return v19(n);
+  const t = Math.floor(n / 10), u = n % 10;
+  const ts = ONES[t] + ' mươi';
+  if (u === 0) return ts;
+  const uw = u === 1 ? 'mốt' : u === 4 ? 'tư' : u === 5 ? 'lăm' : ONES[u];
+  return ts + ' ' + uw;
+}
+
+function toViet(n) {
+  if (n < 100) return v99(n);
+  if (n < 1000) {
+    const h = Math.floor(n / 100), r = n % 100;
+    const s = ONES[h] + ' trăm';
+    if (r === 0) return s;
+    if (r < 10) return s + ' linh ' + ONES[r];
+    return s + ' ' + v99(r);
+  }
+  if (n < 1000000) {
+    const th = Math.floor(n / 1000), r = n % 1000;
+    const ts = (th < 100 ? v99(th) : toViet(th)) + ' nghìn';
+    if (r === 0) return ts;
+    if (r < 10) return ts + ' linh ' + ONES[r];
+    if (r < 100) return ts + ' linh ' + v99(r);
+    return ts + ' ' + toViet(r);
+  }
+  const m = Math.floor(n / 1000000), r = n % 1000000;
+  const ms = ONES[m] + ' triệu';
+  return r === 0 ? ms : ms + ' ' + toViet(r);
+}
+
+// ── Tab ──
+function showUnit(i) {
+  document.querySelectorAll('.tab-btn').forEach((b, j) => b.classList.toggle('active', i === j));
+  document.querySelectorAll('.unit-panel').forEach((p, j) => p.classList.toggle('active', i === j));
+}
+
+// ── Render grids ──
+function numCell(num, viet, special) {
+  const sp = special ? ' special' : '';
+  return `<div class="num-cell${sp}" onclick="speak('${viet}')"><span class="num">${num}</span><span class="viet">${viet}</span><span class="si">🔊</span></div>`;
+}
+
+function buildGrid0to20() {
+  const el = document.getElementById('g0to20');
+  for (let i = 0; i <= 20; i++) el.innerHTML += numCell(i, toViet(i), i === 15);
+}
+
+function buildGridTens() {
+  const el = document.getElementById('gTens');
+  [20, 21, 24, 25, 30, 31, 40, 50, 54, 60, 70, 80, 90, 99].forEach(n => {
+    el.innerHTML += numCell(n, toViet(n), [21, 24, 25, 31, 54].includes(n));
+  });
+}
+
+const LARGE = [
+  [100, '百'], [200, '兩百'], [350, '三百五十'], [105, '一百零五 (linh)'],
+  [1000, '千'], [1500, '一千五百'], [2005, '兩千零五 (linh)'], [2050, '兩千零五十 (linh)'],
+  [10000, '一萬'], [50000, '五萬'], [100000, '十萬'], [1000000, '一百萬'],
+];
+
+function buildLargeTable() {
+  const tb = document.getElementById('ltBody');
+  LARGE.forEach(([n, zh]) => {
+    const v = toViet(n);
+    tb.innerHTML += `<tr><td><strong>${n.toLocaleString()}</strong></td><td class="viet-col">${v}</td><td>${zh}</td><td><button class="spk" onclick="speak('${v}')">🔊</button></td></tr>`;
+  });
+}
+
+const TIME_EX = [
+  ['7:00 AM',  'bảy giờ sáng',                     '早上七點'],
+  ['8:30 AM',  'tám giờ rưỡi sáng',                 '早上八點半'],
+  ['12:00',    'mười hai giờ trưa',                  '中午十二點'],
+  ['3:15 PM',  'ba giờ mười lăm phút chiều',         '下午三點十五分'],
+  ['5:30 PM',  'năm giờ rưỡi chiều',                 '下午五點半'],
+  ['9:45 PM',  'chín giờ bốn mươi lăm phút tối',    '晚上九點四十五分'],
+  ['0:00',     'mười hai giờ đêm',                   '午夜'],
+];
+
+function buildTimeTable() {
+  const tb = document.getElementById('ttBody');
+  TIME_EX.forEach(([t, v, zh]) => {
+    tb.innerHTML += `<tr><td><strong>${t}</strong></td><td class="viet-col">${v}</td><td>${zh}</td><td><button class="spk" onclick="speak('${v}')">🔊</button></td></tr>`;
+  });
+}
+
+const WEEKDAYS = [
+  ['星期一','thứ hai',false],['星期二','thứ ba',false],['星期三','thứ tư',false],
+  ['星期四','thứ năm',false],['星期五','thứ sáu',false],['星期六','thứ bảy',false],
+  ['星期日','chủ nhật',true],
+];
+
+function buildWeekdays() {
+  const el = document.getElementById('gWeek');
+  WEEKDAYS.forEach(([zh, v, sp]) => {
+    el.innerHTML += `<div class="num-cell${sp?' special':''}" onclick="speak('${v}')"><span class="num" style="font-size:0.75rem">${zh}</span><span class="viet">${v}</span><span class="si">🔊</span></div>`;
+  });
+}
+
+// ── Quiz pools ──
+const POOL = [
+  // Unit 0 — basic numbers (12 questions, pick 8)
+  [
+    { q:'數字 <span class="hl">15</span> 越南語說法？', opts:['mười lăm','mười năm','mười bốn','mười sáu'], ans:'mười lăm', exp:'11–19中，個位5寫作 lăm，非 năm。' },
+    { q:'數字 <span class="hl">21</span> 越南語說法？', opts:['hai mươi mốt','hai mươi một','hai mươi hai','hai mươi bốn'], ans:'hai mươi mốt', exp:'20以上個位1用 mốt，非 một。' },
+    { q:'數字 <span class="hl">25</span> 越南語說法？', opts:['hai mươi lăm','hai mươi năm','hai mươi tư','hai lăm'], ans:'hai mươi lăm', exp:'20以上個位5用 lăm，非 năm。' },
+    { q:'數字 <span class="hl">24</span> 越南語說法？', opts:['hai mươi tư','hai mươi bốn','hai mươi lăm','hai mươi mốt'], ans:'hai mươi tư', exp:'20以上個位4習慣用 tư（可替代 bốn）。' },
+    { q:'數字 <span class="hl">54</span> 越南語說法？', opts:['năm mươi tư','năm mươi bốn','lăm mươi tư','bốn mươi lăm'], ans:'năm mươi tư', exp:'十位是 năm mươi（不是 lăm mươi）；個位4用 tư。' },
+    { q:'數字 <span class="hl">40</span> 越南語說法？', opts:['bốn mươi','bốn mười','tư mươi','bốn lăm'], ans:'bốn mươi', exp:'整十：[數字] mươi。tư 只用在個位，十位仍用 bốn mươi。' },
+    { q:'數字 <span class="hl">71</span> 越南語說法？', opts:['bảy mươi mốt','bảy mươi một','bảy mươi hai','sáu mươi mốt'], ans:'bảy mươi mốt', exp:'20以上個位1用 mốt。bảy=7，mươi mốt=11，合計71。' },
+    { q:'數字 <span class="hl">99</span> 越南語說法？', opts:['chín mươi chín','chín mươi lăm','tám mươi chín','chín chín'], ans:'chín mươi chín', exp:'9在個位保持 chín，無特殊變化。' },
+    { q:'越南語 <span class="hl">ba mươi lăm</span> 是哪個數字？', opts:['35','30','25','45'], ans:'35', exp:'ba=3（十位），mươi lăm=15→合計35。' },
+    { q:'越南語 <span class="hl">sáu mươi mốt</span> 是哪個數字？', opts:['61','60','71','51'], ans:'61', exp:'sáu=6，mươi mốt=11→61。mốt是個位1的特殊說法。' },
+    { q:'越南語 <span class="hl">tám mươi tư</span> 是哪個數字？', opts:['84','48','80','74'], ans:'84', exp:'tám=8，mươi tư=14→84。tư是個位4的說法。' },
+    { q:'越南語 <span class="hl">mười ba</span> 是哪個數字？', opts:['13','30','3','23'], ans:'13', exp:'mười ba = 十三 = 13。' },
+  ],
+  // Unit 1 — large numbers (8 questions, pick 6)
+  [
+    { q:'數字 <span class="hl">200</span> 越南語說法？', opts:['hai trăm','hai mươi','mười hai','ba trăm'], ans:'hai trăm', exp:'trăm = 百。200 = hai trăm。' },
+    { q:'數字 <span class="hl">105</span> 越南語說法？', opts:['một trăm linh năm','một trăm năm','một trăm không năm','không trăm linh năm'], ans:'một trăm linh năm', exp:'百位後有零用 linh 補零。105 = một trăm linh năm。' },
+    { q:'數字 <span class="hl">350</span> 越南語說法？', opts:['ba trăm năm mươi','ba trăm lăm mươi','ba mươi lăm','năm trăm ba mươi'], ans:'ba trăm năm mươi', exp:'350 = ba trăm（三百）+ năm mươi（五十）。十位是 năm mươi，非 lăm mươi。' },
+    { q:'數字 <span class="hl">1,000</span> 越南語說法？', opts:['một nghìn','một trăm','mười nghìn','một ngàn trăm'], ans:'một nghìn', exp:'nghìn = 千（北部）/ ngàn（南部）。1,000 = một nghìn。' },
+    { q:'數字 <span class="hl">1,500</span> 越南語說法？', opts:['một nghìn năm trăm','một trăm năm mươi','năm nghìn','một nghìn lăm'], ans:'một nghìn năm trăm', exp:'1,500 = một nghìn（千）+ năm trăm（五百）。' },
+    { q:'數字 <span class="hl">10,000</span> 越南語說法？', opts:['mười nghìn','một nghìn','một vạn','mười trăm'], ans:'mười nghìn', exp:'10,000 = mười nghìn（十千）。' },
+    { q:'越南語 <span class="hl">hai nghìn linh năm</span> 是哪個數字？', opts:['2,005','2,050','2,500','20,005'], ans:'2,005', exp:'hai nghìn = 2,000；linh năm = 零五。合計 2,005。' },
+    { q:'數字 <span class="hl">1,000,000</span> 越南語說法？', opts:['một triệu','một nghìn nghìn','một vạn','một trăm nghìn'], ans:'một triệu', exp:'triệu = 百萬。1,000,000 = một triệu。' },
+  ],
+  // Unit 2 — time (10 questions, pick 8)
+  [
+    { q:'「現在是幾點？」越南語怎麼說？', opts:['Bây giờ là mấy giờ?','Hôm nay là mấy giờ?','Bao giờ là mấy?','Mấy giờ bây giờ là?'], ans:'Bây giờ là mấy giờ?', exp:'bây giờ = 現在；mấy giờ = 幾點。' },
+    { q:'「早上八點」越南語怎麼說？', opts:['tám giờ sáng','sáng tám giờ','tám giờ chiều','tám sáng'], ans:'tám giờ sáng', exp:'格式：[時刻] giờ + [時段]。sáng = 上午/早上。' },
+    { q:'「下午三點半」越南語怎麼說？', opts:['ba giờ rưỡi chiều','ba giờ ba mươi chiều','ba giờ lăm chiều','ba rưỡi chiều giờ'], ans:'ba giờ rưỡi chiều', exp:'rưỡi = 半（30分鐘）。ba giờ rưỡi chiều = 下午三點半。' },
+    { q:'「今天」越南語是？', opts:['hôm nay','hôm qua','ngày mai','ngày kia'], ans:'hôm nay', exp:'hôm nay = 今天。四個相關詞：hôm nay / hôm qua / ngày mai / ngày kia。' },
+    { q:'「昨天」越南語是？', opts:['hôm qua','hôm nay','ngày mai','hôm trước'], ans:'hôm qua', exp:'hôm qua = 昨天。qua 有「過去」之意。' },
+    { q:'「明天」越南語是？', opts:['ngày mai','hôm nay','hôm qua','ngày kia'], ans:'ngày mai', exp:'ngày mai = 明天；ngày kia = 後天。' },
+    { q:'「星期一」越南語是？', opts:['thứ hai','thứ ba','thứ tư','chủ nhật'], ans:'thứ hai', exp:'越南星期從 thứ hai（第二）開始排，thứ hai 即星期一。' },
+    { q:'「星期日」越南語是？', opts:['chủ nhật','thứ hai','thứ bảy','thứ sáu'], ans:'chủ nhật', exp:'週日特稱 chủ nhật（主日），不用數字。' },
+    { q:'越南語 <span class="hl">thứ sáu</span> 是哪天？', opts:['星期五','星期四','星期六','星期三'], ans:'星期五', exp:'sáu = 6，thứ sáu 是第六排，對應星期五（thứ hai 對應星期一）。' },
+    { q:'「下午五點十五分」越南語怎麼說？', opts:['năm giờ mười lăm phút chiều','năm giờ mười năm phút chiều','mười lăm giờ năm phút','năm mươi giờ chiều'], ans:'năm giờ mười lăm phút chiều', exp:'15分 = mười lăm phút（lăm 非 năm）。格式：[時] giờ [分] phút [時段]。' },
+  ],
+];
+
+const Q_COUNT = [8, 6, 8];
+
+const qs = [
+  { list:[], cur:0, score:0, ans:false },
+  { list:[], cur:0, score:0, ans:false },
+  { list:[], cur:0, score:0, ans:false },
+];
+
+function shuffle(a) {
+  const r = [...a];
+  for (let i = r.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [r[i], r[j]] = [r[j], r[i]];
+  }
+  return r;
+}
+
+function startQ(u) {
+  const s = qs[u];
+  s.list = shuffle(POOL[u]).slice(0, Q_COUNT[u]).map(q => ({ ...q, opts: shuffle(q.opts) }));
+  s.cur = 0; s.score = 0; s.ans = false;
+  document.getElementById('sb' + u).style.display = 'none';
+  document.getElementById('qr' + u).classList.remove('show');
+  document.getElementById('qb' + u).classList.add('open');
+  document.getElementById('sc' + u).textContent = '';
+  renderQ(u);
+}
+
+function renderQ(u) {
+  const s = qs[u], q = s.list[s.cur], tot = s.list.length;
+  document.getElementById('qbar' + u).style.width = (s.cur / tot * 100) + '%';
+  document.getElementById('qn' + u).textContent = `第 ${s.cur + 1} 題 / 共 ${tot} 題`;
+  document.getElementById('qt' + u).innerHTML = q.q;
+  const expEl = document.getElementById('qe' + u);
+  expEl.textContent = q.exp; expEl.classList.remove('show');
+  const nxEl = document.getElementById('qnx' + u);
+  nxEl.classList.remove('show');
+  const optsEl = document.getElementById('qo' + u);
+  optsEl.innerHTML = '';
+  q.opts.forEach(o => {
+    const b = document.createElement('button');
+    b.className = 'opt'; b.textContent = o; b.dataset.v = o;
+    b.onclick = () => ansQ(u, b);
+    optsEl.appendChild(b);
+  });
+  s.ans = false;
+}
+
+function ansQ(u, btn) {
+  const s = qs[u];
+  if (s.ans) return;
+  s.ans = true;
+  const q = s.list[s.cur];
+  const ok = btn.dataset.v === q.ans;
+  if (ok) s.score++;
+  document.querySelectorAll(`#qo${u} .opt`).forEach(b => {
+    b.disabled = true;
+    if (b.dataset.v === q.ans) b.classList.add('ok');
+    else if (b === btn) b.classList.add('err');
+  });
+  document.getElementById('qe' + u).classList.add('show');
+  const nxEl = document.getElementById('qnx' + u);
+  nxEl.textContent = s.cur === s.list.length - 1 ? '查看結果' : '下一題 →';
+  nxEl.classList.add('show');
+}
+
+function nextQ(u) {
+  const s = qs[u];
+  s.cur++;
+  if (s.cur >= s.list.length) showResult(u);
+  else renderQ(u);
+}
+
+function showResult(u) {
+  const s = qs[u], tot = s.list.length;
+  document.getElementById('qb' + u).classList.remove('open');
+  document.getElementById('qr' + u).classList.add('show');
+  document.getElementById('rs' + u).textContent = `${s.score} / ${tot}`;
+  const pct = s.score / tot;
+  document.getElementById('rm' + u).textContent =
+    pct === 1 ? '完美！全部答對！🎉' :
+    pct >= 0.75 ? '很好！繼續加油！' :
+    pct >= 0.5 ? '還不錯，再練一次會更好！' : '別灰心，多練幾次就會記住！';
+  document.getElementById('sc' + u).textContent = `上次：${s.score}/${tot}`;
+  document.getElementById('sb' + u).style.display = 'block';
+}
+
+// ── Init ──
+buildGrid0to20();
+buildGridTens();
+buildLargeTable();
+buildTimeTable();
+buildWeekdays();
+</script>
+</body>
+</html>

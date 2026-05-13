@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>越南語學習工具</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red:  #C0392B;
+  --gold: #F39C12;
+  --bg:   #FDF6E3;
+  --dark: #2C1810;
+  --green:#27AE60;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', 'Segoe UI', sans-serif;
+  background-color: var(--bg);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 40px,
+    rgba(192,57,43,0.022) 40px, rgba(192,57,43,0.022) 41px
+  );
+  color: var(--dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.pattern-band {
+  height: 12px;
+  background-color: var(--red);
+  background-image:
+    linear-gradient(135deg, var(--gold) 25%, transparent 25%) -6px 0,
+    linear-gradient(225deg, var(--gold) 25%, transparent 25%) -6px 0,
+    linear-gradient(315deg, var(--gold) 25%, transparent 25%),
+    linear-gradient(45deg,  var(--gold) 25%, transparent 25%);
+  background-size: 12px 12px;
+}
+
+.hero {
+  background: linear-gradient(160deg, #1a0a06 0%, #2C1810 30%, #7B1F12 70%, #C0392B 100%);
+  color: white;
+  text-align: center;
+  padding: 4.5rem 1.5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(243,156,18,0.07), transparent);
+  pointer-events: none;
+}
+.hero-flag { font-size: 3.6rem; margin-bottom: 1rem; line-height: 1; position: relative; }
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 6.5vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--bg);
+  text-shadow: 0 2px 28px rgba(0,0,0,0.45);
+  position: relative;
+  margin-bottom: 0.3rem;
+}
+.hero-deco {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0.9rem auto;
+  position: relative;
+}
+.hero-deco-line {
+  width: 72px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+.hero-deco-line.r { background: linear-gradient(90deg, var(--gold), transparent); }
+.hero-deco-gem {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  box-shadow: 0 0 8px rgba(243,156,18,0.7);
+}
+.hero-subtitle {
+  font-style: italic;
+  font-size: 1.05rem;
+  color: rgba(253,246,227,0.72);
+  letter-spacing: 0.5px;
+  position: relative;
+}
+
+.stats-strip {
+  background: rgba(0,0,0,0.28);
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid rgba(243,156,18,0.18);
+  margin-top: 2rem;
+  padding: 0.9rem 0;
+}
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 2rem;
+  border-right: 1px solid rgba(243,156,18,0.18);
+}
+.stat-item:last-child { border-right: none; }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--gold);
+}
+.stat-label {
+  font-size: 0.72rem;
+  color: rgba(253,246,227,0.62);
+  margin-top: 0.22rem;
+  white-space: nowrap;
+}
+
+.main {
+  flex: 1;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 2.5rem;
+}
+
+.section-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(44,24,16,0.42);
+  margin-bottom: 1.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.section-heading::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(243,156,18,0.35), transparent);
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tool-card {
+  background: #FEFCF6;
+  border-radius: 18px;
+  padding: 2rem 1.7rem 1.7rem;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  box-shadow: 0 4px 22px rgba(44,24,16,0.07), 0 1px 5px rgba(44,24,16,0.04);
+  border: 1.5px solid rgba(243,156,18,0.22);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.5s ease both;
+}
+.tool-card:nth-child(1) { animation-delay: 0.10s; }
+.tool-card:nth-child(2) { animation-delay: 0.22s; }
+.tool-card:nth-child(3) { animation-delay: 0.34s; }
+
+.tool-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--card-color), rgba(243,156,18,0.55));
+}
+
+.tool-card:hover {
+  transform: translateY(-9px);
+  box-shadow: 0 22px 50px rgba(44,24,16,0.14), 0 6px 18px rgba(44,24,16,0.06);
+  border-color: rgba(243,156,18,0.42);
+}
+
+.card-icon { font-size: 2.2rem; line-height: 1; }
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--dark);
+}
+.card-desc {
+  font-size: 0.83rem;
+  color: rgba(44,24,16,0.6);
+  line-height: 1.68;
+  flex: 1;
+}
+.card-meta {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-top: 0.2rem;
+}
+.meta-tag {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  background: var(--tag-bg);
+  color: var(--tag-fg);
+  border: 1px solid var(--tag-border);
+  white-space: nowrap;
+}
+.card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--card-color);
+  margin-top: 0.5rem;
+}
+
+.card-blue   { --card-color:#C0392B; --tag-bg:#FEF0EE; --tag-fg:#9B2335; --tag-border:rgba(192,57,43,0.18); }
+.card-green  { --card-color:#27AE60; --tag-bg:#E9FAF0; --tag-fg:#1E8449; --tag-border:rgba(39,174,96,0.2); }
+.card-orange { --card-color:#D68910; --tag-bg:#FEF9E7; --tag-fg:#B7770D; --tag-border:rgba(214,137,16,0.22); }
+
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.78rem;
+  color: rgba(44,24,16,0.36);
+  border-top: 1px solid rgba(243,156,18,0.18);
+}
+
+@media (max-width: 740px) {
+  .tool-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+}
+@media (max-width: 480px) {
+  .hero { padding: 3.2rem 1.2rem 2.5rem; }
+  .stat-item { padding: 0 1.2rem; }
+  .main { padding: 2rem 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="pattern-band"></div>
+
+<div class="hero">
+  <div class="hero-flag">🇻🇳</div>
+  <h1 class="hero-title">越南語學習工具</h1>
+  <div class="hero-deco">
+    <div class="hero-deco-line"></div>
+    <div class="hero-deco-gem"></div>
+    <div class="hero-deco-line r"></div>
+  </div>
+  <p class="hero-subtitle">Công cụ học Tiếng Việt</p>
+
+  <div class="stats-strip">
+    <div class="stat-item">
+      <span class="stat-num">114</span>
+      <span class="stat-label">個單字</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">8</span>
+      <span class="stat-label">個主題</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">6</span>
+      <span class="stat-label">個文法單元</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">18</span>
+      <span class="stat-label">題練習</span>
+    </div>
+  </div>
+</div>
+
+<main class="main">
+  <p class="section-heading">選擇學習工具</p>
+  <div class="tool-grid">
+
+    <a class="tool-card card-blue" href="index.html">
+      <div class="card-icon">🃏</div>
+      <div class="card-title">單字字卡</div>
+      <p class="card-desc">翻轉字卡學習越南語單字，分類練習、朗讀發音，追蹤學習進度。</p>
+      <div class="card-meta">
+        <span class="meta-tag">114 個單字</span>
+        <span class="meta-tag">8 個主題</span>
+        <span class="meta-tag">語音朗讀</span>
+      </div>
+      <span class="card-cta">開始學習 →</span>
+    </a>
+
+    <a class="tool-card card-green" href="grammar.html">
+      <div class="card-icon">📝</div>
+      <div class="card-title">文法句型</div>
+      <p class="card-desc">學習基礎越南語句型，透過填空題鞏固文法概念與常用句型。</p>
+      <div class="card-meta">
+        <span class="meta-tag">6 個單元</span>
+        <span class="meta-tag">18 題練習</span>
+        <span class="meta-tag">例句朗讀</span>
+      </div>
+      <span class="card-cta">開始練習 →</span>
+    </a>
+
+    <a class="tool-card card-orange" href="numbers.html">
+      <div class="card-icon">🔢</div>
+      <div class="card-title">數字時間</div>
+      <p class="card-desc">學習越南語數字、時間、日期的說法，掌握日常生活必備表達。</p>
+      <div class="card-meta">
+        <span class="meta-tag">數字 0–百萬</span>
+        <span class="meta-tag">時間日期</span>
+        <span class="meta-tag">3 個單元</span>
+      </div>
+      <span class="card-cta">開始練習 →</span>
+    </a>
+
+  </div>
+</main>
+
+<footer>越南語學習工具 · Công cụ học Tiếng Việt</footer>
+
+</body>
+</html>
